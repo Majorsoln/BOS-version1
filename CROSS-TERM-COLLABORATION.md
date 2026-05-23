@@ -85,13 +85,56 @@ DRAFT ─► OPEN ─► NEGOTIATING ─► ACCEPTED ─► CLOSED
 
 ## 5. How a Term Works, Start to Finish
 
-1. Read: **Charter → Decision Log → this doc → your Brief**.
-2. Identify your **boundary objects** (Section 3) and **neighbours** (Section 2).
-3. Draft your proposal (your concept docs / CN-x-xxx).
-4. For every dependency on a neighbour, **file a CTR**.
-5. Resolve all CTRs (with Term 7 mediating).
-6. Only then mark your proposal **ready for the Architect phase**.
+A Term does **not** write its proposal first and seek approval later. It earns the proposal through discussion. The order is deliberate:
 
-> *"Six brilliant ideas that don't fit are worse than one mediocre idea that does. The CTR is how the ideas are made to fit before code is ever written."*
+1. **Read** the full stack: **Charter → Decision Log → this doc → your Brief → your open CTRs**.
+2. **Identify** your boundary objects (§3) and neighbours (§2).
+3. **Bring points to the table — section by section.** For each part of your scope, the Term prepares its *arguments and options* (the "why", the trade-offs, the open questions) and presents them to the **Concept Lead** for discussion. This is a conversation, not a submission.
+4. **Discuss and agree.** The Concept Lead (and the Overseer / Term 7) work through each section with the Term. A section may be **improved, extended, or have new features/workflows added** during this discussion.
+5. **Only after a section is agreed is its proposal written** (the CN-x-xxx concept doc). Writing follows agreement; it does not precede it.
+6. **File CTRs** for every dependency on a neighbour, and resolve them (Term 7 mediating).
+7. A Term's proposal is **"ready"** only when: every section is agreed with the Concept Lead, every CTR is closed, and the Overseer confirms coherence.
+
+> The system has **no complete proposal** until **all seven Terms' proposals have passed**. Until then, everything is in discussion and subject to change.
+
+---
+
+## 6. Authority & Approval
+
+Collaboration has a clear chain. No work becomes final by a Term acting alone.
+
+| Role | Authority |
+|------|-----------|
+| **Concept Lead (the human)** | **Final authority.** Every section, every proposal, every decision requires the Concept Lead's agreement. Nothing is "done" without it. |
+| **Overseer / Term 7 (the coordinator)** | Coordinates, checks coherence, routes and mediates CTRs, integrates work. A Term must also align with the Overseer — but the Overseer never overrides the Concept Lead. |
+| **Each Term** | Owns its scope and proposals, but cannot finalise anything without agreement from **both** the Concept Lead and the Overseer. |
+
+**Rule:** Every Term must agree with the Concept Lead — and with the Overseer — before a section is written or a proposal is marked ready. Discussion is step-by-step; agreement is explicit, not assumed.
+
+---
+
+## 7. How AI-Agent Terms Collaborate (Operating Model)
+
+When each Term is run by a separate Claude Code agent, the agents collaborate the way BOS engines do — through **artifacts in git**, never by direct real-time calls. The repo is the shared memory: *what is not committed does not exist.*
+
+**Five rules:**
+1. **One Term = one agent = its own files.** New proposals live under `terms/term-N/proposals/CN-N-xxx.md`. (Existing root Briefs stay where they are for now.)
+2. **One owner per file.** An agent **never edits another Term's files** — this removes merge conflicts entirely.
+3. **Communication is via the CTR register only.** Need something from another Term? *Append* a CTR — don't touch their files. The receiving Term reads CTRs addressed to it and responds in the register.
+4. **The Overseer (Term 7) owns the shared files** (Decision Log, this doc, the register, the glossary) and is the only one who integrates/merges.
+5. **Git:** each Term works on its own branch (e.g., `term-4/work`); the Overseer reviews and merges in sequence. On a single branch, an agent touches only its own folder.
+
+**Each agent's loop (the briefing the Overseer gives it):**
+```
+Read: Charter → DECISION-LOG → this doc → your Brief → your open CTRs
+  → bring your section's points to the Concept Lead and discuss
+  → on agreement, write that section's proposal (CN-x-xxx) in your folder
+  → file CTRs for dependencies; respond to CTRs addressed to you
+  → mark "ready" only when sections are agreed AND CTRs are closed
+```
+
+**Trade-off:** async, file-mediated collaboration is slower than live chatter, but it is auditable, conflict-free, survives ephemeral sessions, and matches BOS doctrine (artifacts are truth). Real-time agent-to-agent talk is not reliable; the artifacts are.
+
+> *"Six brilliant ideas that don't fit are worse than one mediocre idea that does. The CTR is how the ideas are made to fit — and the Concept Lead's agreement is how they become real — before code is ever written."*
 
 *— End of Cross-Term Collaboration —*

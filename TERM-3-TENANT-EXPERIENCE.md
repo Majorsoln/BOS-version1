@@ -283,7 +283,7 @@ She is the test.
 
 ## Standing Decisions & Cross-Term Work
 
-> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency. Bring each section to the **Concept Lead** and **Overseer (Term 7)**, discuss and agree first — the proposal is written only **after** agreement, and nothing is final without it.
 
 | New Concept | From | This Term must decide |
 |-------------|------|------------------------|

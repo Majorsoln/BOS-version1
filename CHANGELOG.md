@@ -3,6 +3,12 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-23 (later)
+
+**Collaboration protocol clarified**
+- `CROSS-TERM-COLLABORATION.md` — §5 rewritten to a discuss-then-write workflow (Terms bring points section by section to the Concept Lead; the proposal is written only after agreement). Added §6 Authority & Approval (Concept Lead is final; Overseer/Term 7 coordinates and must also agree; no complete system proposal until all seven Terms pass) and §7 the AI-agent operating model (one Term = one agent, one owner per file, CTR as the only message bus, per-Term folders, git branches).
+- Terms 1–7 addenda updated to state the discuss-and-agree-first rule and the Concept Lead's final authority.
+
 ## 2026-05-23
 
 **Added — concept-environment scaffolding**

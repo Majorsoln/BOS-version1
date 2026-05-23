@@ -333,7 +333,7 @@ But saying "no" with reasons. Always with reasons.
 
 ## Standing Decisions & Cross-Term Work
 
-> This Term **owns** `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md`. It triages every CTR and mediates conflicts.
+> This Term **owns** `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md`. It triages every CTR and mediates conflicts. As **Overseer**, it coordinates section-by-section discussion and confirms coherence — but it **never overrides the Concept Lead**, who is the final authority on every proposal.
 
 | New Concept | From | This Term must decide |
 |-------------|------|------------------------|
