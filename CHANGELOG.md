@@ -3,6 +3,14 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-23 (Term 4 §1 review)
+
+**Decision recorded**
+- **D-004 — Concept-Writing Principles.** From the Term 4 Mission review: a Mission carries only the unchanging; no unverifiable hard numbers (supersedes the "10 years" vs "20 years" conflict in Term 4 Brief §1/§2); "invisible" is scoped to runtime users; audience/tone follow each Brief §5; Foundation Mission must elevate legal defensibility, neutrality-by-restraint, and the six Laws as technical invariants. D1–D4 rulings recorded.
+
+**Glossary created**
+- `MASTER-GLOSSARY.md` (Term 7 / CN-7-003), seeded with the Foundation-vs-Kernel ruling and core cross-Term terms.
+
 ## 2026-05-23 (later)
 
 **Collaboration protocol clarified**

@@ -129,6 +129,37 @@ CTR-011, CTR-012, CTR-013.
 
 ---
 
+## D-004 — Concept-Writing Principles (Mission & Concept Docs)
+
+> **Date:** 2026-05-23 · **Status:** Accepted · **Origin:** Term 4 Section 1 (Mission) review · **Charter check:** Reinforces §1.2 (legal defensibility), §1.4 (neutral by design), §2 (the six Laws), §8.2 (English body)
+
+### Context
+While reviewing Term 4's Mission section by section, the Term surfaced gaps and tensions. Resolving them produced principles that apply to **every** Term's concept work, plus specific guidance for the Foundation Mission.
+
+### Decisions (cross-cutting — apply to all Terms unless noted)
+1. **A Mission carries the *unchanging*.** Doctrine, truth, durability, restraint, isolation belong in the Mission. Anything that can change — performance budgets, decision-specific detail (e.g. Developer-AI under D-002B), illustrative figures — lives in the relevant CN doc, **not** the Mission. This keeps Missions from becoming living documents that need constant edits.
+2. **No unverifiable hard numbers as commitments.** Replace "10/20 years" with **"decades, without periodic full rewrites"**; replace "50 verticals, 30 countries" with **"dozens of verticals, many countries."** Claim only what can be proven (this is what "legally defensible" demands). *This supersedes the conflicting figures in Term 4 Brief §1 ("20 years") and §2 ("10 years").*
+3. **"Invisible" is scoped.** A kernel/engine is invisible to **runtime users** (tenants, agents); to **developers**, the kernel is the *wall* that rejects doctrine violations before production.
+4. **Audience & tone follow the Term's Brief §5.** Foundation's audience is **other Terms + Architects** — peer-technical tone, and **no "For Mama Asha" section** in Foundation docs (that rule is Term 3's).
+5. **Glossary terminology (see `MASTER-GLOSSARY.md`):** *Foundation* = the Term; *Kernel* = the artifact it designs. Use **"the Foundation Term designs the BOS Kernel."**
+
+### Foundation-Mission specifics (Term 4 only)
+The Foundation Mission must explicitly elevate three things that were previously only implied:
+- **Legal defensibility** — hash chain + audit log + replay are what make BOS provable in court.
+- **Neutrality by restraint** — Foundation knows no vertical, no country, no integration; this is its strength (promote Brief §14 into the Mission).
+- **The six Laws as technical invariants** — Foundation is where the Laws become tests a developer cannot bypass (ties to CN-4-019).
+
+### D1–D4 rulings (recorded)
+- **D1 Performance:** out of the Mission; specified as a non-functional concern in CN-4-009 (Replay) and CN-4-018 (Snapshots).
+- **D2 Developer-AI:** light touch in the Mission only; full boundary + doctrine-gate detail in CN-4-023.
+- **D3 Figures:** removed per Decision 2 above.
+- **D4 Audience:** Terms + Architects per Decision 4 above.
+
+### Affects
+Term 4 immediately; Decisions 1, 2, 4, 5 apply to all Terms' future concept docs.
+
+---
+
 ## Decision Index
 
 | ID | Title | Status | Primary Terms |
@@ -136,5 +167,6 @@ CTR-011, CTR-012, CTR-013.
 | D-001 | Universal Checkout | Accepted | 4, 5, 6, 3, 1, 7 |
 | D-002 | AI Advisor Framework + Developer-AI | Accepted | 4, 5, 2, 1, 3, 7 |
 | D-003 | Multiple Agents + Referral | Accepted | 1, 2, 3, 7 |
+| D-004 | Concept-Writing Principles | Accepted | 4 (now); all (ongoing) |
 
 *— End of Decision Log —*
