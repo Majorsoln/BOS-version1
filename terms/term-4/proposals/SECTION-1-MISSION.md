@@ -1,7 +1,7 @@
 > **Parent:** [BOS-CONCEPT-CHARTER.md](../../../BOS-CONCEPT-CHARTER.md) — read first
 > **Term:** Term 4 — Foundation
 > **Type:** System Term (Part B)
-> **Status:** Concept Phase v1.0 — draft for review
+> **Status:** Concept Phase v1.0 — Section 1 **ratified** by Concept Lead 2026-05-23
 > **Governed by:** DECISION-LOG.md D-004
 
 ---

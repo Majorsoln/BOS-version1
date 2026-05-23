@@ -5,6 +5,9 @@
 
 ## 2026-05-23 (Term 4 §1 review)
 
+**Ratified**
+- **Term 4 Section 1 (Mission)** — ratified by the Concept Lead. First proposal section to pass. Recorded in `terms/term-4/proposals/SECTION-1-MISSION.md`.
+
 **Decision recorded**
 - **D-004 — Concept-Writing Principles.** From the Term 4 Mission review: a Mission carries only the unchanging; no unverifiable hard numbers (supersedes the "10 years" vs "20 years" conflict in Term 4 Brief §1/§2); "invisible" is scoped to runtime users; audience/tone follow each Brief §5; Foundation Mission must elevate legal defensibility, neutrality-by-restraint, and the six Laws as technical invariants. D1–D4 rulings recorded.
 
