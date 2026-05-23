@@ -16,7 +16,7 @@ This Term thinks about how those people do their work safely, transparently, and
 
 ## 2. Mission Question
 
-> **"How do we govern a system used in 10+ countries, by hundreds of agents, by thousands of tenants — without breaking it, without playing favourites, and without losing the ability to prove what we changed and why?"**
+> **"How do we govern a system used in 100+ countries, by hundreds of agents, by millions of tenants — without breaking it, without playing favourites, and without losing the ability to prove what we changed and why?"**
 
 ---
 
