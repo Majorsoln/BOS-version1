@@ -10,7 +10,7 @@
 
 Platform Stewards are the people inside BOS itself — not customers, not agents, but the **owners and operators** of the BOS platform as a product. They set the rules everyone else plays by: pricing, engine catalog, compliance pack approval, agent vetting, payout policy, system-wide policy.
 
-This Term thinks about how those people do their work safely, transparently, and at scale across 10+ countries — without becoming bottlenecks, without losing audit trail, and without accidentally pushing changes that break thousands of tenants.
+This Term thinks about how those people do their work safely, transparently, and at scale across 100+ countries — without becoming bottlenecks, without losing audit trail, and without accidentally pushing changes that break thousands of tenants.
 
 ---
 
