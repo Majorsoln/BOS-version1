@@ -331,4 +331,19 @@ But saying "no" with reasons. Always with reasons.
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> This Term **owns** `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md`. It triages every CTR and mediates conflicts.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-7-115 | D-002 | **AI in the integration pipeline** (e.g., fraud hints) and **prompt-injection defence** for external data; verify advisory-only holds across runtime, integrations, and the build pipeline |
+
+**Coherence duties from the decisions:**
+- **D-001:** confirm payment adapters attach at the **tender** boundary (CTR-006) and that every vertical truly shares one checkout.
+- **D-002:** drive CTR-010 — collect each Term's AI touchpoints and confirm every one is advisory/human-gated.
+- **D-003:** drive CTR-013 — confirm referral never creates a de-facto Global Agent or escapes regional compliance (Law 6).
+
+---
+
 *— End of Term 7 Brief —*

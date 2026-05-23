@@ -1,0 +1,25 @@
+# Changelog
+
+> Records every change to the Charter and to cross-Term decisions.
+> Managed by Term 7 — Integration & Coherence (Charter §11).
+
+## 2026-05-23
+
+**Added — concept-environment scaffolding**
+- `DECISION-LOG.md` — binding cross-Term decisions (Term 7 / CN-7-007).
+- `CROSS-TERM-COLLABORATION.md` — interaction map, boundary objects, and the Cross-Term Request (CTR) process.
+- `CROSS-TERM-REQUEST-REGISTER.md` — living register of CTRs, seeded from D-001..D-003.
+- This `CHANGELOG.md` (promised in Charter §11).
+
+**Decisions recorded**
+- **D-001 — Universal Checkout.** POS becomes a two-layer design: a universal Checkout/Tender layer over a shared Saleable Line abstraction, with each vertical feeding the lines. Lets any business type use one checkout.
+- **D-002 — AI.** (A) One runtime Advisor Framework (advisory-only, scoped, model-swappable, Decision-Journal-logged) for tenants, agents, and platform. (B) A build-time Developer-AI environment that lives outside the kernel, briefs Claude Code (the implementer) to make GitHub changes, and releases only after human review + tests/doctrine invariants pass.
+- **D-003 — Distribution.** Multiple regional agents per region (Law 6 intact) plus a referral program as an acquisition layer, not a replacement for compliance-accountable agency.
+
+**Charter amendments**
+- §2.4 added — pointer to standing decisions (Decision Log).
+- §6.3 rule 6 added — Cross-Term Request requirement before the Architect phase.
+- §11 updated — Decision Log + CHANGELOG now exist and are referenced.
+
+**Term Briefs**
+- Terms 1–7 each gained a "Standing Decisions & Cross-Term Work" addendum mapping D-001..D-003 to new concept docs and CTRs.

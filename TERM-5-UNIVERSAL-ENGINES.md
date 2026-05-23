@@ -319,4 +319,17 @@ If a vertical needs special behaviour that universal engines can't provide, that
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-5-009 | D-001 | The **Universal Checkout / Tender Engine**: tender, splits, change, receipt issuance; Accounting + Cash subscribe to its events |
+| CN-5-010 | D-002 | The **BI / KPI Advisor** for owners and **engine advisor wiring** (Inventory/Cash/Procurement), advisory-only, on the Advisor Framework |
+
+**CTRs to expect:** files CTR-003 (checkout boundary → 4), CTR-006 (payment adapters → 7), CTR-007 (advisor framework → 4); receives CTR-002 (lines hand-off ← 6), CTR-004 (checkout UI ← 3), CTR-005 (catalog ← 1), CTR-009 (explainability ← 3); confirms CTR-010 (advisory-only).
+
+---
+
 *— End of Term 5 Brief —*

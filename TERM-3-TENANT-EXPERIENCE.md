@@ -281,4 +281,18 @@ She is the test.
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-3-016 | D-001 | **One Universal Checkout UX** shared across all verticals (cashier flow, split payment, receipt) |
+| CN-3-017 | D-002 | How AI **advice is presented** per role, and how much reasoning is shown (explainability / trust) |
+| CN-3-018 | D-003 | Tenant-side **agent discovery** and **referral touchpoints** (without bypassing agent-led onboarding) |
+
+**CTRs to expect:** files CTR-004 (checkout UI ← 5,6), CTR-009 (AI explainability ← 4,5), CTR-012 (agent discovery → Term 2); confirms CTR-010 (advisory-only).
+
+---
+
 *— End of Term 3 Brief —*

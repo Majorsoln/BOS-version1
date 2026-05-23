@@ -307,4 +307,16 @@ This test is non-negotiable. If we fail it, we are not yet done.
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-6-106 | D-001 | The **vertical → checkout hand-off**: each vertical (Retail basket, Restaurant bill, Hotel folio, Workshop accepted quote) emits **Saleable Lines** into the Universal Checkout and owns **nothing** about tender, change, or receipt |
+
+**CTRs to expect:** files CTR-001 (line/tender primitive → 4) and CTR-002 (lines hand-off → 5); receives CTR-004 (checkout UI ← 3) and CTR-005 (catalog ← 1); confirms CTR-010 (advisory-only). Future verticals reuse this same hand-off — a test of the CN-6-100 framework.
+
+---
+
 *— End of Term 6 Brief —*

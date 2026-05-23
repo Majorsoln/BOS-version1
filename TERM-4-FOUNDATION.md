@@ -320,4 +320,18 @@ Whenever a Foundation concept doc is tempted to mention a specific vertical, cou
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-4-021 | D-001 | The **Saleable Line / Charge** and **Tender** value shapes; whether Checkout is a primitive or a universal engine built on obligation + document + ledger |
+| CN-4-022 | D-002 | The **Advisor Framework contract** (audience/scope/model plug-in); extend AI Guardrails + **Decision Journal** to record **model identity/version** and explainability fields |
+| CN-4-023 | D-002 | The **kernel boundary**: declare **Developer-AI is out-of-kernel**; define the **doctrine-enforcement gate** every proposed change must pass before release |
+
+**CTRs to expect:** receives CTR-001 (line/tender ← 6), CTR-003 (checkout boundary ← 5), CTR-007 (advisor framework ← 5,2,3), CTR-009 (explainability ← 3); files CTR-008 (Developer-AI governance → Term 1); confirms CTR-010 (advisory-only).
+
+---
+
 *— End of Term 4 Brief —*

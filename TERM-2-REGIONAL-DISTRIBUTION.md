@@ -243,4 +243,17 @@ When this Term starts concept work, begin in this order:
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-2-013 | D-002 | The **Agent Advisor** — AI that helps agents with onboarding/support (advisory only) |
+| CN-2-014 | D-003 | The **multi-agent experience** and **referral flow**: who may refer (agent/tenant/public), the **attribution model** (who owns a referred tenant), fair-competition guardrails; update CN-2-011 transfer for attribution changes |
+
+**CTRs to expect:** files CTR-011 (referral/commission → Term 1); receives CTR-012 (tenant discovery/referral ← Term 3) and CTR-013 (referral vs Law 6 ← Term 7); confirms CTR-010 (advisory-only).
+
+---
+
 *— End of Term 2 Brief —*

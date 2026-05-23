@@ -110,6 +110,10 @@ There is no "Global Agent." Every agent operates within one country/region becau
 | **Read the Charter, then act** | No assumptions. No "I think it works like..." |
 | **Document the reason, not just the action** | Future readers need the "why" |
 
+### 2.4 Standing Decisions
+
+The Laws above are non-negotiable doctrine. Concrete choices made *within* the doctrine are recorded in **`DECISION-LOG.md`** (owned by Term 7). A standing decision may never contradict a Law; if it appears to, Term 7 escalates to the Concept Lead. Every Term must read the Decision Log after this Charter and honour its decisions in their proposals.
+
 ---
 
 ## 3. The People (Audiences)
@@ -376,6 +380,7 @@ Every Term has three roles working in sequence:
 3. **Cross-Term concepts go through Term 7.** If a concept touches two Terms (e.g., a tenant dashboard widget that needs a foundation primitive), Term 7 mediates.
 4. **Charter conflicts halt work.** If a concept conflicts with the Charter, work stops until the Charter is amended OR the concept is revised.
 5. **Concept docs are living.** They are versioned, not frozen. But changes are reviewed.
+6. **Cross-Term needs become Cross-Term Requests.** When a proposal depends on another Term (a primitive, field, event, policy, or UI contract), the dependency is filed as a **CTR** in `CROSS-TERM-REQUEST-REGISTER.md`. A proposal cannot advance to the Architect phase while it has any open CTR. See `CROSS-TERM-COLLABORATION.md`.
 
 ### 6.4 Deliverables Per Term
 
@@ -509,7 +514,8 @@ This Charter is version 1.0. It will be amended. Amendment rules:
 - Any Term may propose an amendment via a written proposal to Term 7.
 - Term 7 evaluates whether the amendment maintains coherence.
 - Amendments approved by Term 7 + the Concept Lead (you, the human) become effective.
-- All Terms are notified of amendments via a `CHANGELOG.md` (to be created).
+- All Terms are notified of amendments via `CHANGELOG.md`.
+- Standing decisions are recorded in `DECISION-LOG.md`; cross-Term agreements are tracked in `CROSS-TERM-REQUEST-REGISTER.md` per the process in `CROSS-TERM-COLLABORATION.md`.
 
 ---
 

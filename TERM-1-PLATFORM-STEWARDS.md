@@ -234,4 +234,18 @@ When this Term starts concept work, begin in this order:
 
 ---
 
+## Standing Decisions & Cross-Term Work
+
+> Read `DECISION-LOG.md`, `CROSS-TERM-COLLABORATION.md`, and `CROSS-TERM-REQUEST-REGISTER.md` before discussing these. File a CTR for every dependency.
+
+| New Concept | From | This Term must decide |
+|-------------|------|------------------------|
+| CN-1-013 | D-001 | Is Universal Checkout always-on for every tenant, or a catalog item priced in combos? |
+| CN-1-014 | D-002 | AI governance: model approval, **model registry**, governance of the out-of-kernel **Developer-AI** environment (who triggers builds/releases), and a platform advisor |
+| CN-1-015 | D-003 | Governance of **multiple agents per region**, **referral program rules**, commission/attribution policy, and conflict/transfer arbitration |
+
+**CTRs to expect:** receives CTR-005 (checkout catalog), CTR-008 (Developer-AI governance), CTR-011 (referral/commission), CTR-013 (referral vs Law 6).
+
+---
+
 *— End of Term 1 Brief —*
