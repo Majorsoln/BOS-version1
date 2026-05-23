@@ -85,6 +85,8 @@ DRAFT ─► OPEN ─► NEGOTIATING ─► ACCEPTED ─► CLOSED
 
 ## 5. How a Term Works, Start to Finish
 
+> **Output is concept, not code.** A Term's job is to **discuss and describe *how the system will be*** — in prose, tables, flows, examples, and contracts. **No Term writes code, no implementations, no schemas-as-code during this phase** (Charter §10). The deliverable is a `.md` concept document that an Architect can later design from, and only after that an Implementer codes. Discussion now; code much later, and only once all proposals pass.
+
 A Term does **not** write its proposal first and seek approval later. It earns the proposal through discussion. The order is deliberate:
 
 1. **Read** the full stack: **Charter → Decision Log → this doc → your Brief → your open CTRs**.
@@ -128,7 +130,7 @@ When each Term is run by a separate Claude Code agent, the agents collaborate th
 ```
 Read: Charter → DECISION-LOG → this doc → your Brief → your open CTRs
   → bring your section's points to the Concept Lead and discuss
-  → on agreement, write that section's proposal (CN-x-xxx) in your folder
+  → on agreement, write that section's proposal (CN-x-xxx) in your folder — concept prose / flows / contracts, NO code
   → file CTRs for dependencies; respond to CTRs addressed to you
   → mark "ready" only when sections are agreed AND CTRs are closed
 ```
