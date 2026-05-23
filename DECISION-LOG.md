@@ -158,6 +158,9 @@ The Foundation Mission must explicitly elevate three things that were previously
 ### Affects
 Term 4 immediately; Decisions 1, 2, 4, 5 apply to all Terms' future concept docs.
 
+### Deferred follow-up
+- **Brief reconciliation pass** (Concept Lead approved, not yet scheduled): once Term 4's proposal is complete, scrub the legacy hard numbers ("10 years", "20 years", "50 verticals", "30 countries") from all seven Term Briefs so the Briefs match D-004. Until then, D-004 supersedes those figures.
+
 ---
 
 ## Decision Index
