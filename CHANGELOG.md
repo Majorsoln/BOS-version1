@@ -5,6 +5,9 @@
 
 ## 2026-05-24
 
+**Merged to `main`**
+- **Term 4 Sections 1 (Mission) & 2 (Mission Question)** ratified by the Concept Lead and merged to `main` (commit `65cb2a0`). Overseer review confirmed D-004/D-006 compliance; Term 4 applied two fixes (Parent links; "cracks" → "holds" consistency). First Term proposal sections to land on `main`.
+
 **Ratified**
 - **Term 4 Section 2 (Mission Question)** wording ratified by the Concept Lead — version E with "holds": *"How do we build a kernel that holds under decades of pressure — new verticals, new countries, AI that must remain advisory — and still proves to a court that nothing was ever silently changed?"* Charter §5.2 summary updated to match (de-numbered). Term 4 authors the file on its branch (D-006).
 
