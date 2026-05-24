@@ -1,6 +1,7 @@
 # Term 4 — Foundation
 ## Section 2 — Mission Question
 
+> **Parent:** [BOS-CONCEPT-CHARTER.md](../../../BOS-CONCEPT-CHARTER.md) — read first
 > **Status:** For review — approved wording (version E); framing paragraphs for Concept Lead + Overseer agreement.
 > **Governing decisions:** D-004 (no hard numbers; invariants only), D-006 (collaboration model).
 > **Glossary:** *Foundation* = this Term; *Kernel* = the artifact it designs (see `MASTER-GLOSSARY.md`).

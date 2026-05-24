@@ -1,6 +1,7 @@
 # Term 4 — Foundation
 ## Section 1 — Mission
 
+> **Parent:** [BOS-CONCEPT-CHARTER.md](../../../BOS-CONCEPT-CHARTER.md) — read first
 > **Status:** Ratified in concept (Concept Lead + Overseer agreed).
 > **Governing decisions:** D-004 (concept-writing principles), D-006 (collaboration model).
 > **Glossary:** *Foundation* = this Term; *Kernel* = the artifact it designs (see `MASTER-GLOSSARY.md`).
@@ -9,7 +10,7 @@
 
 ## Mission
 
-The Foundation Term designs the BOS Kernel — the lowest layer of the system. Every engine, portal, dashboard, and document sits on it. If the Kernel cracks, BOS cracks. If the Kernel is sound, BOS can grow for decades — absorbing verticals not yet imagined and countries not yet onboarded — without a full rewrite.
+The Foundation Term designs the BOS Kernel — the lowest layer of the system. Every engine, portal, dashboard, and document sits on it. If the Kernel does not hold, nothing built on it holds. If the Kernel is sound, BOS can grow for decades — absorbing verticals not yet imagined and countries not yet onboarded — without a full rewrite.
 
 The Kernel is what makes BOS **legally defensible**. The event store, hash chain, audit log, and replay engine together let an auditor or a court reconstruct exactly what happened, prove nothing was silently changed, and verify any issued document years after it was signed. This is not a feature of BOS; it is the floor BOS stands on.
 
