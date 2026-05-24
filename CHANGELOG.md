@@ -6,6 +6,7 @@
 ## 2026-05-24
 
 **Merged to `main`**
+- **Term 4 Section 5 (Audiences Served)** ratified and merged (commit `1d2bbf8`). Audience table (Terms 1,2,3,5,6,7 + Architects as a future audience), promise referenced from Section 1, and an extensibility note (new consumers via CN-4-020; new materials via CTR + restraint test). No new CTRs.
 - **Term 4 Section 4 (Scope · Out)** ratified and merged (commit `970709b`). Consolidated OUT list (26 items, 7 categories) with owners, the restraint statement, and three borderline rulings (Auth, prompt-injection, partitioning) — all OUT. No new CTRs.
 - **Term 4 Section 3 (Scope · In)** ratified by the Concept Lead and merged (commit `3b8129d`). Encodes all 13 D-007 resolutions across five clusters; cross-term items (CTR-001/003/007/016/017/018) marked pending acceptance by Terms 1/5/6/7.
 
