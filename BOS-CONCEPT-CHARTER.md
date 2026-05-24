@@ -284,7 +284,7 @@ PART A — PEOPLE TERMS              PART B — SYSTEM TERMS         PART C — 
 | 1 | Platform Stewards | *How do we govern a system used in 10+ countries without breaking?* | Admin portal, policy, compliance approval |
 | 2 | Regional Distribution | *How do we put BOS in the hands of a Kariakoo seller without scaring her?* | Agent portal, onboarding, regional compliance |
 | 3 | Tenant Experience | *How does Mama Asha get truth about her business from her phone?* | Tenant dashboards, mobile UX, roles, training |
-| 4 | Foundation | *How do we build a kernel that doesn't crack after 10 years and 50 verticals?* | Event store, primitives, security, doctrine enforcement |
+| 4 | Foundation | *How do we build a kernel that holds under decades of change — and still proves to a court that nothing was silently changed?* | Event store, primitives, security, doctrine enforcement |
 | 5 | Universal Engines | *What does EVERY business — retail, hotel, hospital, marketing — share?* | Accounting, cash, inventory, procurement, HR, reporting |
 | 6 | Vertical Engines | *What is unique to each business type, and how do new ones plug in?* | Retail, Restaurant, Hotel, Workshop, + future verticals |
 | 7 | Integration & Coherence | *Are all six Terms saying the same thing? Do their ideas fit together?* | Cross-term validation, charter enforcement, external gateway logic |

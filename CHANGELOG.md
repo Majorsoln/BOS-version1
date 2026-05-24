@@ -5,6 +5,9 @@
 
 ## 2026-05-24
 
+**Ratified**
+- **Term 4 Section 2 (Mission Question)** wording ratified by the Concept Lead — version E with "holds": *"How do we build a kernel that holds under decades of pressure — new verticals, new countries, AI that must remain advisory — and still proves to a court that nothing was ever silently changed?"* Charter §5.2 summary updated to match (de-numbered). Term 4 authors the file on its branch (D-006).
+
 **Decisions recorded**
 - **D-005 — AI Mode (Universal Per-Role Dashboard Advisor).** Every dashboard, for every role (tenant, platform steward, regional agent), gets an "AI Mode" built on the one Advisor Framework (D-002A) — prompt + proactive role-scoped advice, advisory-only, journaled, explainable. Enabled for all roles from the start. Seeds CTR-014, CTR-015.
 - **D-006 — Collaboration Operating Model.** `main` is the single shared source of truth; each Term authors only its own files on a branch from `main`; the Overseer publishes shared docs, reviews, merges, answers Terms' questions, and keeps every Term current — and does NOT author Term content.
