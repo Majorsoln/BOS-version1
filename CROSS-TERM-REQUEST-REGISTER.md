@@ -25,6 +25,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-011 | 2 | 1 | D-003 | Referral rules + commission attribution | OPEN |
 | CTR-012 | 3 | 2 | D-003 | Tenant agent-discovery + referral touchpoint | OPEN |
 | CTR-013 | 7 | 1, 2 | D-003 | Referral must not create a de-facto Global Agent | OPEN |
+| CTR-014 | 1 | 4, 7 | D-005 | AI Mode cost governance + model approval | OPEN |
+| CTR-015 | 7 | 1, 2, 3 | D-005 | Adopt one AI Mode dashboard pattern (CN-7-004) | OPEN |
 
 ---
 
@@ -170,6 +172,28 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Coherence confirmation that referral never lets one party act across regions or escape regional compliance accountability.
 - **Why:** Charter Law 6 — distribution is regional because compliance is regional.
 - **Proposed contract:** A referrer earns referral reward only; the compliance-accountable agent is always region-local; no cross-region agency is created by referral.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-014 — AI Mode cost governance + model approval
+- **From Term:** 1
+- **To Term(s):** 4, 7
+- **Decision / Topic:** D-005 / AI Mode
+- **Boundary Object:** BO-2
+- **What is needed:** Platform governance for AI Mode running on every dashboard: per-tenant/role cost controls, model approval, and the model registry.
+- **Why:** AI Mode on all dashboards means many model calls; cost and model choice must be governed without changing engine code.
+- **Proposed contract:** Term 1 owns AI cost policy + model registry; Term 4 exposes the model plug-in point; Term 7 confirms advisory-only across all surfaces.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-015 — Adopt one AI Mode dashboard pattern
+- **From Term:** 7
+- **To Term(s):** 1, 2, 3
+- **Decision / Topic:** D-005 / AI Mode
+- **Boundary Object:** BO-2
+- **What is needed:** All dashboards (platform, agent, tenant) implement the **same** AI Mode pattern, recorded in the Pattern Library (CN-7-004).
+- **Why:** Consistency — owner, cashier, agent, and platform staff get one coherent AI Mode, differing only in scoped advice.
+- **Proposed contract:** Term 7 publishes the AI Mode pattern (prompt + proactive advice, role-scoped, journaled, explainable); Terms 1/2/3 surface it per their dashboards.
 - **Status:** OPEN
 - **Resolution:** —
 

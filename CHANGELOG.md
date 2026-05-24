@@ -3,6 +3,17 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-24
+
+**Decisions recorded**
+- **D-005 — AI Mode (Universal Per-Role Dashboard Advisor).** Every dashboard, for every role (tenant, platform steward, regional agent), gets an "AI Mode" built on the one Advisor Framework (D-002A) — prompt + proactive role-scoped advice, advisory-only, journaled, explainable. Enabled for all roles from the start. Seeds CTR-014, CTR-015.
+- **D-006 — Collaboration Operating Model.** `main` is the single shared source of truth; each Term authors only its own files on a branch from `main`; the Overseer publishes shared docs, reviews, merges, answers Terms' questions, and keeps every Term current — and does NOT author Term content.
+
+**Removed**
+- The subagent-authored `terms/term-4/proposals/SECTION-1-MISSION.md` and `SECTION-2-MISSION-QUESTION.md` were discarded; Term 4 authors its own work on its branch (D-006).
+
+**Shared docs published to `main`** so every Term session can read them.
+
 ## 2026-05-23 (Term 4 §1 review)
 
 **Ratified**

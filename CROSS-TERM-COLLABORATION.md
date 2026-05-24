@@ -113,6 +113,14 @@ Collaboration has a clear chain. No work becomes final by a Term acting alone.
 
 **Rule:** Every Term must agree with the Concept Lead — and with the Overseer — before a section is written or a proposal is marked ready. Discussion is step-by-step; agreement is explicit, not assumed.
 
+**Overseer responsibilities (D-006):**
+- Detect coherence problems and fix them (or route them for resolution).
+- **Answer the Terms' questions** — a Term can raise a question; the Overseer responds.
+- **Keep every Term current** — ensure all Terms learn new agreements and changes promptly, via `main` and the Changelog.
+- Own and maintain the shared docs (Charter, Decision Log, Glossary, this doc, the Register, the Changelog).
+- Review and **merge** ratified Term work into `main`.
+- **Does NOT author Term content** — Terms write their own proposals.
+
 ---
 
 ## 7. How AI-Agent Terms Collaborate (Operating Model)
@@ -124,7 +132,7 @@ When each Term is run by a separate Claude Code agent, the agents collaborate th
 2. **One owner per file.** An agent **never edits another Term's files** — this removes merge conflicts entirely.
 3. **Communication is via the CTR register only.** Need something from another Term? *Append* a CTR — don't touch their files. The receiving Term reads CTRs addressed to it and responds in the register.
 4. **The Overseer (Term 7) owns the shared files** (Decision Log, this doc, the register, the glossary) and is the only one who integrates/merges.
-5. **Git:** each Term works on its own branch (e.g., `term-4/work`); the Overseer reviews and merges in sequence. On a single branch, an agent touches only its own folder.
+5. **Git (D-006):** `main` is the single shared source of truth. Each Term branches **from `main`**, pulls `main` to stay current, and works on its own branch (e.g., `term-4/work`). The Overseer publishes shared docs to `main` and **merges ratified Term work back into `main`**.
 
 **Each agent's loop (the briefing the Overseer gives it):**
 ```

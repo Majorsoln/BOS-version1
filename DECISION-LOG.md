@@ -163,6 +163,54 @@ Term 4 immediately; Decisions 1, 2, 4, 5 apply to all Terms' future concept docs
 
 ---
 
+## D-005 — AI Mode (Universal Per-Role Dashboard Advisor)
+
+> **Date:** 2026-05-24 · **Status:** Accepted · **Charter check:** Honours Law 3 (advisory only) and §1.4 (neutral by design); it is the UI face of D-002A, not a new mechanism
+
+### Context
+Inspired by the "AI Mode" pattern now common on consumer products. BOS should offer the same on **every** dashboard — but bounded by BOS doctrine.
+
+### Decision
+**Every dashboard, for every role** — across tenants, platform stewards, and regional agents — includes an **"AI Mode"**: a per-role advisor surfaced on the dashboard (a prompt box for questions **plus** proactive, role-relevant advice, KPI/BI explanations, and alerts), built on the **single Advisor Framework (D-002A)**. Advice is tailored to the role's audience and strictly bounded by the role's data scope. **Enabled for all roles from the start** (not phased).
+
+### Guardrails (restated from D-002A)
+- **Advisory only** — never executes; any resulting action goes through the command bus with human approval (Law 3).
+- **Scope/permission-bounded** — a role's AI Mode sees only what that role may see; no cross-role or cross-tenant leakage; cross-tenant benchmarking is opt-in only.
+- **Reads projections only** — never writes events (replay-safe).
+- **Journaled** — model id/version, prompt, data reference, suggestion, human decision (Decision Journal).
+- **Explainable** — "show your work"; Kiswahili-first for tenants.
+- **Cost-governed, offline-degraded, prompt-injection-defended.**
+
+### Ownership
+| Term | Owns |
+|------|------|
+| Term 4 | The Advisor Framework + role-scope binding (CN-4-022) |
+| Term 3 | Tenant AI Mode UX + explainability (CN-3-017) |
+| Term 1 | Platform-staff AI Mode + AI cost governance & model approval |
+| Term 2 | Agent AI Mode (CN-2-013) |
+| Term 5 | BI/KPI + engine advisors feeding it (CN-5-010) |
+| Term 7 | Record as a Pattern (CN-7-004) so every dashboard implements it consistently; advisory-only coherence (CTR-010); prompt-injection (CN-7-115) |
+
+### Seeds CTRs
+CTR-014, CTR-015.
+
+---
+
+## D-006 — Collaboration Operating Model (`main` as shared truth)
+
+> **Date:** 2026-05-24 · **Status:** Accepted · **Origin:** the Terms run as separate Claude Code sessions on separate branches; without a shared base they could not see each other's work (this caused duplicate Section 2 drafts and Term 4 not seeing D-004)
+
+### Decision
+1. **`main` is the single shared source of truth.** The Overseer publishes the shared docs (Charter, Decision Log, Glossary, Collaboration, Request Register, Changelog) and ratified proposals to `main`.
+2. **Each Term authors ONLY its own files**, on its own branch created from `main`. The Overseer reviews and **merges ratified work into `main`**. Terms pull `main` to stay current.
+3. **The Overseer (Term 7) does NOT author Term content.** Overseer duties: detect and fix coherence problems; **answer the Terms' questions**; **ensure every Term learns agreements and changes promptly** (via `main` + the Changelog); own and maintain the shared docs; review and merge.
+4. The subagent-authored Term 4 Section 1/2 files were **discarded**; Term 4 authors its own Mission and Mission Question on its branch.
+
+### Supersedes
+The per-Term-branch note in `CROSS-TERM-COLLABORATION.md` §7 is now anchored to `main`.
+
+---
+
 ## Decision Index
 
 | ID | Title | Status | Primary Terms |
@@ -171,5 +219,7 @@ Term 4 immediately; Decisions 1, 2, 4, 5 apply to all Terms' future concept docs
 | D-002 | AI Advisor Framework + Developer-AI | Accepted | 4, 5, 2, 1, 3, 7 |
 | D-003 | Multiple Agents + Referral | Accepted | 1, 2, 3, 7 |
 | D-004 | Concept-Writing Principles | Accepted | 4 (now); all (ongoing) |
+| D-005 | AI Mode (per-role dashboard advisor) | Accepted | 1, 2, 3, 4, 5, 7 |
+| D-006 | Collaboration Operating Model (`main`) | Accepted | all |
 
 *— End of Decision Log —*
