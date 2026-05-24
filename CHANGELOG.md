@@ -5,6 +5,9 @@
 
 ## 2026-05-24
 
+**Merged to `main`**
+- **Term 4 Section 3 (Scope · In)** ratified by the Concept Lead and merged (commit `3b8129d`). Encodes all 13 D-007 resolutions across five clusters (Storage & Truth, Primitives, Security & Isolation, AI & Documents, Time & Resilience); cross-term items (CTR-001/003/007/016/017/018) marked pending acceptance by Terms 1/5/6/7.
+
 **Decision recorded**
 - **D-007 — Foundation Scope Resolutions (Section 3).** 13 ratified resolutions for what the Kernel provides, incl. Saleable Line/Tender as value shapes (Checkout = Term 5 engine), the nine primitives (Consent ≠ Approval), compensating-event fold semantics, a distinct "advisor" principal + first-class platform scope, runtime advisor-scope enforcement, Foundation verification logic vs Term 7 surface, DSL grammar + sandboxed evaluator, resilience auto/human transitions, and **removal of "close period" from the Ledger primitive** (neutrality). Seeds CTR-016/017/018; resolves CTR-009; partially resolves CTR-007; proposes CTR-001/003.
 
