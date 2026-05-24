@@ -12,21 +12,24 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 
 | CTR | From | To | Decision | Topic | Status |
 |-----|------|----|----------|-------|--------|
-| CTR-001 | 6 | 4 | D-001 | Saleable Line / Tender primitive | OPEN |
+| CTR-001 | 6 | 4 | D-001 | Saleable Line / Tender primitive | NEGOTIATING |
 | CTR-002 | 6 | 5 | D-001 | Verticals feed lines; tender owned by universal | OPEN |
-| CTR-003 | 5 | 4 | D-001 | Checkout: primitive or universal engine? | OPEN |
+| CTR-003 | 5 | 4 | D-001 | Checkout: primitive or universal engine? | NEGOTIATING |
 | CTR-004 | 3 | 5, 6 | D-001 | One checkout UI contract + line shape | OPEN |
 | CTR-005 | 1 | 5, 6 | D-001 | Checkout: always-on vs catalog item | OPEN |
 | CTR-006 | 5 | 7 | D-001 | Payment adapters attach at tender boundary | OPEN |
-| CTR-007 | 5, 2, 3 | 4 | D-002A | Advisor Framework contract + model identity | OPEN |
+| CTR-007 | 5, 2, 3 | 4 | D-002A | Advisor Framework contract + model identity | NEGOTIATING |
 | CTR-008 | 4 | 1 | D-002B | Developer-AI governance + model registry | OPEN |
-| CTR-009 | 3 | 4, 5 | D-002A | AI explainability fields surfaced to UI | OPEN |
+| CTR-009 | 3 | 4, 5 | D-002A | AI explainability fields surfaced to UI | ACCEPTED |
 | CTR-010 | 7 | all | D-002 | Advisory-only invariant holds everywhere | OPEN |
 | CTR-011 | 2 | 1 | D-003 | Referral rules + commission attribution | OPEN |
 | CTR-012 | 3 | 2 | D-003 | Tenant agent-discovery + referral touchpoint | OPEN |
 | CTR-013 | 7 | 1, 2 | D-003 | Referral must not create a de-facto Global Agent | OPEN |
 | CTR-014 | 1 | 4, 7 | D-005 | AI Mode cost governance + model approval | OPEN |
 | CTR-015 | 7 | 1, 2, 3 | D-005 | Adopt one AI Mode dashboard pattern (CN-7-004) | OPEN |
+| CTR-016 | 4 | 1 | D-007 | Platform scope as a first-class parallel scope | OPEN |
+| CTR-017 | 4 | 7 | D-007 | Document verification: Foundation logic / Term 7 surface | OPEN |
+| CTR-018 | 4 | 6 | D-007 | Extension Points include a registration API concept | OPEN |
 
 ---
 
@@ -40,8 +43,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** A Foundation-level `Saleable Line / Charge` shape that any vertical can produce, plus a `Tender` shape checkout can settle against.
 - **Why:** Verticals must hand payable lines to a shared checkout without checkout knowing the vertical.
 - **Proposed contract:** A line carries {item ref, description, qty, unit price, tax treatment ref, source vertical tag (opaque to checkout), optional discount refs}. Tender carries {method, amount, external reference}.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (proposed, D-007):** Saleable Line and Tender are **value shapes** in Foundation (CN-4-021). Pending Term 6 acceptance.
 
 ### CTR-002 — Verticals feed lines; tender owned by universal
 - **From Term:** 6
@@ -62,8 +65,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Foundation ruling on whether Checkout is a primitive or a universal engine built from existing primitives (obligation, document, ledger).
 - **Why:** Determines where checkout logic lives and how it stays isolated.
 - **Proposed contract:** Checkout is a **universal engine** in Term 5, built on Foundation's obligation + document + ledger primitives; Foundation adds only the `Saleable Line` + `Tender` value shapes if existing primitives are insufficient.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (proposed, D-007):** Accepted by Term 4: Checkout = universal engine in Term 5; Foundation provides the value shapes only. Pending Term 5 acceptance.
 
 ### CTR-004 — One checkout UI contract + line shape
 - **From Term:** 3
@@ -106,8 +109,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** A Foundation Advisor Framework defining audience, data scope, model plug-in, and Decision Journal fields including model identity/version.
 - **Why:** Engine advisors, BI/KPI advisor, agent advisor, and tenant-facing advice all need one consistent, advisory-only contract.
 - **Proposed contract:** Advisor = {audience, scope, model ref}; every suggestion journals {model id+version, data ref, prompt ref, human decision}.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (partial, D-007):** Term 4 confirms a distinct "advisor" principal (model id/version + scope), **runtime scope enforcement by the Kernel**, and the journal fields. Framework shape to be finalised in CN-4-022. Pending Term 5/2/3 confirmation.
 
 ### CTR-008 — Developer-AI governance + model registry
 - **From Term:** 4
@@ -128,8 +131,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** The Decision Journal must expose enough (recommendation + reasoning summary + data basis) for tenant-facing explainability, per role.
 - **Why:** A tenant must be able to judge whether to trust an AI suggestion (Term 3 trust moments).
 - **Proposed contract:** Journal entry exposes a human-readable recommendation, a short rationale, and a "show your work" data reference; full chain-of-thought is not required.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** ACCEPTED
+- **Resolution (D-007):** Decision Journal exposes recommendation + short rationale + data reference; **no full chain-of-thought**. Foundation defines the schema (CN-4-013/022).
 
 ### CTR-010 — Advisory-only invariant holds everywhere
 - **From Term:** 7
@@ -194,6 +197,39 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** All dashboards (platform, agent, tenant) implement the **same** AI Mode pattern, recorded in the Pattern Library (CN-7-004).
 - **Why:** Consistency — owner, cashier, agent, and platform staff get one coherent AI Mode, differing only in scoped advice.
 - **Proposed contract:** Term 7 publishes the AI Mode pattern (prompt + proactive advice, role-scoped, journaled, explainable); Terms 1/2/3 surface it per their dashboards.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-016 — Platform scope as a first-class parallel scope
+- **From Term:** 4
+- **To Term(s):** 1
+- **Decision / Topic:** D-007 / Identity & isolation
+- **Boundary Object:** BO-5, BO-6
+- **What is needed:** Confirmation that platform cross-tenant access (e.g., "all tenants in region X this month") is modelled as a **first-class platform scope** with its own audit trail — not an exception that weakens tenant isolation.
+- **Why:** Platform governance (Term 1) needs cross-tenant visibility without breaching Law of isolation.
+- **Proposed contract:** Foundation provides a platform scope parallel to tenant scope; every platform-scope access is audited; Term 1 defines which platform roles may use it.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-017 — Document verification: Foundation logic / Term 7 surface
+- **From Term:** 4
+- **To Term(s):** 7
+- **Decision / Topic:** D-007 / Document verification
+- **Boundary Object:** —
+- **What is needed:** Agreement that Foundation owns the verification **logic + hash check**, while Term 7 owns the **external-facing surface** (the public portal) and **offline/cached** verification.
+- **Why:** Verification = hash-chain integrity (Foundation's core promise), but the public exposure is an integration concern.
+- **Proposed contract:** Foundation exposes a verify(document, hash) capability; Term 7 builds the public/QR surface and offline cache around it.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-018 — Extension Points include a registration API concept
+- **From Term:** 4
+- **To Term(s):** 6
+- **Decision / Topic:** D-007 / Extension Points
+- **Boundary Object:** BO-5
+- **What is needed:** Confirmation that the new-engine contract includes a **registration API concept** (engine manifest, capability declaration, compatibility check), not just a checklist — since Term 6 depends on it to add verticals.
+- **Why:** Term 6 adds new verticals; a concrete registration contract makes that clean and isolated.
+- **Proposed contract:** Foundation (CN-4-020) defines a manifest + capability declaration + compatibility check; Term 6 follows it to register each vertical without touching the Kernel.
 - **Status:** OPEN
 - **Resolution:** —
 

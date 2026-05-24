@@ -211,6 +211,36 @@ The per-Term-branch note in `CROSS-TERM-COLLABORATION.md` §7 is now anchored to
 
 ---
 
+## D-007 — Foundation Scope Resolutions (Section 3)
+
+> **Date:** 2026-05-24 · **Status:** Accepted · **Origin:** Term 4 Section 3 (Scope · In) discussion · **Charter check:** Honours D-004 neutrality, Law 2 (isolation), Law 3 (advisory)
+
+Ratified resolutions for what the Kernel provides:
+
+| # | Resolution |
+|---|-----------|
+| 1 | **Saleable Line** & **Tender** are **value shapes** in Foundation (CN-4-021); **Checkout is a universal engine** in Term 5 built on Foundation primitives. *(CTR-001/003 — pending Term 5/6 acceptance.)* |
+| 2 | Primitive set = the **nine**; **Consent is distinct from Approval**; **Workflow is distinct from Approval**. |
+| 3 | **Compensating events:** no deletion ever; current truth = a **deterministic fold of all events including compensations**; the fold is defined per primitive. |
+| 4 | Identity: a distinct **"advisor" principal** (model id/version + scope); **fine-grained system principals** (`system:<component>`); **platform scope is a first-class parallel scope** with its own audit trail — not an exception to isolation. |
+| 5 | **Engine isolation** enforced by **both** runtime guards and CI doctrine checks. |
+| 6 | **Advisor Framework scope is enforced at runtime by the Kernel**; the **Decision Journal** exposes recommendation + rationale + data reference (**not** full chain-of-thought). |
+| 7 | **Document Verification:** Foundation owns the verification logic + hash check; **Term 7** owns the external surface + offline/cached verification. |
+| 8 | **Compliance DSL:** grammar **and** sandboxed evaluator both in Foundation; the escape hatch is a **reviewed, sandboxed extension mechanism** (guarded against overuse). |
+| 9 | **Resilience:** auto NORMAL→DEGRADED (audited, deterministic, replay-safe); human-gated for deeper transitions and all recovery. |
+| 10 | **Snapshots:** non-truth **marker type** + CI doctrine check (runtime guard where feasible). |
+| 11 | **Extension Points** include a **registration API concept** (manifest, capability declaration, compatibility check), not just a checklist. |
+| 12 | **Document numbering:** deterministic, branch/terminal-scoped, **block-reserved** for DEGRADED mode. |
+| 13 | **"Close period" is removed from the Ledger primitive** — period close is an Accounting (Term 5) concept; the Ledger knows only entries/balances. *(Neutrality, D-004.)* |
+
+### Cross-term
+Seeds **CTR-016** (→ Term 1, platform scope), **CTR-017** (→ Term 7, verification split), **CTR-018** (→ Term 6, registration API). Resolves **CTR-009**; partially resolves **CTR-007**; proposes resolution for **CTR-001/003** (pending Term 5/6).
+
+### Affects
+Term 4 (Section 3); Terms 1, 5, 6, 7 must accept the cross-term items before those parts are final.
+
+---
+
 ## Decision Index
 
 | ID | Title | Status | Primary Terms |
@@ -221,5 +251,6 @@ The per-Term-branch note in `CROSS-TERM-COLLABORATION.md` §7 is now anchored to
 | D-004 | Concept-Writing Principles | Accepted | 4 (now); all (ongoing) |
 | D-005 | AI Mode (per-role dashboard advisor) | Accepted | 1, 2, 3, 4, 5, 7 |
 | D-006 | Collaboration Operating Model (`main`) | Accepted | all |
+| D-007 | Foundation Scope Resolutions (Section 3) | Accepted | 4; 1, 5, 6, 7 |
 
 *— End of Decision Log —*
