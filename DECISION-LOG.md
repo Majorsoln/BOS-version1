@@ -272,6 +272,26 @@ Terms 2, 3, 5, 7 (+ Term 4 consent). Does not affect Term 4's current Section wo
 
 ---
 
+## D-009 — Temporal Interpretation / "Freeze" Doctrine
+
+> **Date:** 2026-05-24 · **Status:** Accepted · **Origin:** Term 4 Section 7 (edge cases O7, O15) · **Charter check:** Honours Law 1 (immutability) and §1.2 (legal defensibility)
+
+### Context
+When compliance rules, tax rates, or document law change, how are past events and documents interpreted on replay or re-verification?
+
+### Decision
+**Events and issued documents are always interpreted under the rules, rates, and compliance-pack/template version that were active at the moment of emission/issuance. They are never retroactively reinterpreted.** A later rule change applies only to new events/documents. Each event and document references the pack/template version active at its creation.
+
+### Implications
+- **Replay** reproduces historical state under historical rules — deterministic.
+- **Documents** reference the compliance pack + template version at issuance; old documents stand under old law, new documents follow new law.
+- **Compliance DSL** supports pack versioning so historical rules remain available.
+
+### Implementation & affects
+Implemented in CN-4-001 (Event Sourcing Doctrine), CN-4-012 (Document Engine), CN-4-015 (Compliance DSL). Affects Term 5 (accounting corrections, period logic), Term 1 (compliance pack lifecycle), Term 7 (validation). Binding doctrine — no new CTR; all Terms honour it.
+
+---
+
 ## Decision Index
 
 | ID | Title | Status | Primary Terms |
@@ -284,5 +304,6 @@ Terms 2, 3, 5, 7 (+ Term 4 consent). Does not affect Term 4's current Section wo
 | D-006 | Collaboration Operating Model (`main`) | Accepted | all |
 | D-007 | Foundation Scope Resolutions (Section 3) | Accepted | 4; 1, 5, 6, 7 |
 | D-008 | Conversational / Messaging Channels | Accepted | 2, 3, 5, 7 (+4) |
+| D-009 | Temporal Interpretation / Freeze Doctrine | Accepted | 4; 1, 5, 7 |
 
 *— End of Decision Log —*

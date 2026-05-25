@@ -6,6 +6,7 @@
 ## 2026-05-24
 
 **Decision recorded**
+- **D-009 — Temporal Interpretation / "Freeze" Doctrine.** Events and issued documents are interpreted under the rules/rates/pack-version active at emission/issuance; never retroactively reinterpreted. Implemented in CN-4-001/012/015; affects Terms 1/5/7. Arose from Term 4 Section 7 (edge cases O7, O15).
 - **D-008 — Conversational / Messaging Channels.** A cross-term capability (not a new Term) for acquiring and serving customers over SMS, WhatsApp, Telegram, and email. Term 7 owns the channel adapters/gateway; Term 3 the tenant↔customer UX; Term 2 the agent use; Term 5 outreach/promotions; Term 4's consent primitive gates marketing. Guardrails: consent-first + opt-out, AI advisory/human-gated, channels via the Term 7 gateway. Boundary object BO-7; seeds CTR-019/020/021.
 
 **Merged to `main`**
