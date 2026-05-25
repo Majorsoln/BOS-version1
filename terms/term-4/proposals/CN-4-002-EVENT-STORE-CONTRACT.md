@@ -34,7 +34,7 @@ Every event in BOS is wrapped in a universal envelope. The envelope is engine-ag
 | **payload** | Structured data | The engine-specific content. Opaque to the store; meaningful to the engine and its primitives. | CN-4-011 defines per-primitive payload shapes. |
 | **metadata** | Registered key-value | Engine-agnostic operational data (e.g., source IP, request origin). Schema-constrained: metadata fields are registered (like event types), not ad-hoc. Not part of business truth — never used in fold logic. | Extensible via registration; prevents "hidden state" leaking into metadata. |
 
-**Total: 16 fields** (14 original + compensates_event_id + metadata registered constraint).
+**Total: 15 fields** (14 original + compensates_event_id).
 
 ---
 
