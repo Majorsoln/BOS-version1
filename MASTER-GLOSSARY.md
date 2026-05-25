@@ -21,5 +21,8 @@ Every Term uses these words the same way. New entries are added by Term 7 when a
 | **Developer-AI** | A **build-time** capability **outside the kernel** that briefs the implementer (Claude Code) to make changes; never runs in production, never writes state. | D-002B; boundary in CN-4-023. |
 | **Regional Agent** | The compliance-accountable distributor in one region. Referral never replaces this role. | Charter Law 6; D-003. |
 | **Proposal** | A `.md` concept document describing *how the system will be* — **no code**. | Charter §10; collaboration doc §5. |
+| **Compensating Event** | A new event that corrects the effect of a prior event without deleting or modifying it. | CN-4-001; D-007 #3. |
+| **Fold** | The deterministic function that replays a sequence of events to produce current state; defined per primitive. | CN-4-001; CN-4-011. |
+| **Replay** | Running events through fold logic to reconstruct state at any point in time. | CN-4-001; CN-4-009. |
 
 *— End of Master Glossary —*

@@ -9,6 +9,9 @@
 - **D-009 — Temporal Interpretation / "Freeze" Doctrine.** Events and issued documents are interpreted under the rules/rates/pack-version active at emission/issuance; never retroactively reinterpreted. Implemented in CN-4-001/012/015; affects Terms 1/5/7. Arose from Term 4 Section 7 (edge cases O7, O15).
 - **D-008 — Conversational / Messaging Channels.** A cross-term capability (not a new Term) for acquiring and serving customers over SMS, WhatsApp, Telegram, and email. Term 7 owns the channel adapters/gateway; Term 3 the tenant↔customer UX; Term 2 the agent use; Term 5 outreach/promotions; Term 4's consent primitive gates marketing. Guardrails: consent-first + opt-out, AI advisory/human-gated, channels via the Term 7 gateway. Boundary object BO-7; seeds CTR-019/020/021.
 
+**Merged to `main`**
+- **Term 4 CN-4-001 (Event Sourcing Doctrine)** ratified and merged (commit `587ea6c`) — the first CN concept document. Six doctrine assertions, the Three Whys with alternatives rejected, implications (compensating fold D-007 #3, freeze D-009, determinism), the Mzee Hassan/TRA example, and boundaries. Glossary terms **Compensating Event, Fold, Replay** added to `MASTER-GLOSSARY.md`.
+
 **Decision recorded**
 - **Term 4 Sections 12–14 intentionally omitted** (Concept Lead approved): §12 (Notes on Existing Repository) is reference-only; §13 (First Tasks) is superseded by Section 6's writing order; §14 (Restraint) is folded into Section 1 (Mission) and Section 4 (Scope). Term 4's brief-level proposal is therefore Sections 1–11. Next: the 23 CN concept documents, in the Section 6 order (Phase 1 → 2 → 3).
 
