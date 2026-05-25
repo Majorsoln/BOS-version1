@@ -9,6 +9,9 @@
 - **D-009 — Temporal Interpretation / "Freeze" Doctrine.** Events and issued documents are interpreted under the rules/rates/pack-version active at emission/issuance; never retroactively reinterpreted. Implemented in CN-4-001/012/015; affects Terms 1/5/7. Arose from Term 4 Section 7 (edge cases O7, O15).
 - **D-008 — Conversational / Messaging Channels.** A cross-term capability (not a new Term) for acquiring and serving customers over SMS, WhatsApp, Telegram, and email. Term 7 owns the channel adapters/gateway; Term 3 the tenant↔customer UX; Term 2 the agent use; Term 5 outreach/promotions; Term 4's consent primitive gates marketing. Guardrails: consent-first + opt-out, AI advisory/human-gated, channels via the Term 7 gateway. Boundary object BO-7; seeds CTR-019/020/021.
 
+**Decision recorded**
+- **Term 4 Sections 12–14 intentionally omitted** (Concept Lead approved): §12 (Notes on Existing Repository) is reference-only; §13 (First Tasks) is superseded by Section 6's writing order; §14 (Restraint) is folded into Section 1 (Mission) and Section 4 (Scope). Term 4's brief-level proposal is therefore Sections 1–11. Next: the 23 CN concept documents, in the Section 6 order (Phase 1 → 2 → 3).
+
 **Merged to `main`**
 - **Term 4 Section 11 (Open Questions)** ratified and merged (commit `9090ed5`) — the **final brief-level section**. 7 resolved by decisions, 8 open assigned to CN docs (3 from Brief §11 + 5 new), 0 needs-ruling, 0 new CTRs. **Term 4's brief-level proposal (Sections 1–11) is complete.**
 - **Term 4 Section 10 (Relationships with Other Terms)** ratified and merged (commit `0728389`). Depends-on (Term 7 only), depended-on-by (consistent with Section 5), the live cross-term picture (11 CTRs: 7 inbound incl. CTR-021 + 4 outbound; BO-1/2/3/5/6/7), and hand-off statements.
