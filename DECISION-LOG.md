@@ -241,6 +241,37 @@ Term 4 (Section 3); Terms 1, 5, 6, 7 must accept the cross-term items before tho
 
 ---
 
+## D-008 — Conversational / Messaging Channels
+
+> **Date:** 2026-05-24 · **Status:** Accepted · **Charter check:** Honours Law 3 (advisory), Law 5 (compliance/consent), and §1.4 (neutral). **Cross-term capability, not a new Term.**
+
+### Context
+Agents and tenants need to **acquire and serve customers over messaging channels** (SMS, WhatsApp, Telegram, email). The initial docs never captured this as a coherent capability. It is recorded as a cross-term capability distributed across existing Terms — the 7-Term structure is unchanged.
+
+### Decision
+- **Scope:** both customer **acquisition** (outreach/marketing) and **service** (support, orders, receipts, notifications). Initial channel categories: **SMS, WhatsApp, Telegram, email** — extensible via the integration framework (a new channel adds an adapter, no engine change).
+- **Ownership:**
+  | Term | Owns |
+  |------|------|
+  | Term 7 | Messaging **channel adapters / gateway** (inbound/outbound, idempotency, retry) — extends CN-7-112 with a "conversational/messaging" category |
+  | Term 3 | **Tenant ↔ customer** messaging UX (orders, support, receipts, notifications over channels) — extends CN-3-012, CN-3-010 |
+  | Term 2 | **Agent** use of channels to acquire/support tenants, and to help tenants set up their channels |
+  | Term 5 | Customer **acquisition / outreach + promotions** over channels (Promotion Engine) + usage metrics |
+  | Term 4 | **Consent primitive** governs marketing/outreach (consent + opt-out) — already exists (CN-4-011) |
+
+### Guardrails (doctrine)
+- **Consent-first + opt-out** — outreach requires recorded consent; anti-spam and regional law respected.
+- **AI on channels is advisory/human-gated** — a bot may reply/advise, but an order or payment goes through the command bus with human confirmation (Law 3). It may be an AI Mode surface (D-005) but never transacts autonomously.
+- **Channels are integrations** — they pass through the Term 7 gateway, never directly from an engine.
+
+### Boundary object & CTRs
+- **BO-7** (Messaging Channels). Seeds **CTR-019** (T3 → T7), **CTR-020** (T2 → T7), **CTR-021** (T5 → T4/T7).
+
+### Affects
+Terms 2, 3, 5, 7 (+ Term 4 consent). Does not affect Term 4's current Section work.
+
+---
+
 ## Decision Index
 
 | ID | Title | Status | Primary Terms |
@@ -252,5 +283,6 @@ Term 4 (Section 3); Terms 1, 5, 6, 7 must accept the cross-term items before tho
 | D-005 | AI Mode (per-role dashboard advisor) | Accepted | 1, 2, 3, 4, 5, 7 |
 | D-006 | Collaboration Operating Model (`main`) | Accepted | all |
 | D-007 | Foundation Scope Resolutions (Section 3) | Accepted | 4; 1, 5, 6, 7 |
+| D-008 | Conversational / Messaging Channels | Accepted | 2, 3, 5, 7 (+4) |
 
 *— End of Decision Log —*

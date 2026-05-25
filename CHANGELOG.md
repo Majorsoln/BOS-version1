@@ -5,6 +5,9 @@
 
 ## 2026-05-24
 
+**Decision recorded**
+- **D-008 — Conversational / Messaging Channels.** A cross-term capability (not a new Term) for acquiring and serving customers over SMS, WhatsApp, Telegram, and email. Term 7 owns the channel adapters/gateway; Term 3 the tenant↔customer UX; Term 2 the agent use; Term 5 outreach/promotions; Term 4's consent primitive gates marketing. Guardrails: consent-first + opt-out, AI advisory/human-gated, channels via the Term 7 gateway. Boundary object BO-7; seeds CTR-019/020/021.
+
 **Merged to `main`**
 - **Term 4 Section 6 (Key Concepts)** ratified and merged (commit `42b9d06`). The 23-doc CN catalogue grouped by clusters A–E with Decisions + CTR columns, overlap note, writing order (Phase 1 doctrine → Phase 2 CTR-driven → Phase 3 parallel), and cross-term summary. Supersedes Brief §13's First Tasks.
 - **Term 4 Section 5 (Audiences Served)** ratified and merged (commit `1d2bbf8`). Audience table (Terms 1,2,3,5,6,7 + Architects as a future audience), promise referenced from Section 1, and an extensibility note (new consumers via CN-4-020; new materials via CTR + restraint test). No new CTRs.

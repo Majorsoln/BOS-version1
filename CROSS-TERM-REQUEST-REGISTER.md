@@ -30,6 +30,9 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-016 | 4 | 1 | D-007 | Platform scope as a first-class parallel scope | OPEN |
 | CTR-017 | 4 | 7 | D-007 | Document verification: Foundation logic / Term 7 surface | OPEN |
 | CTR-018 | 4 | 6 | D-007 | Extension Points include a registration API concept | OPEN |
+| CTR-019 | 3 | 7 | D-008 | Messaging channel contract (tenant↔customer) | OPEN |
+| CTR-020 | 2 | 7 | D-008 | Agent channel contract (acquisition/support) | OPEN |
+| CTR-021 | 5 | 4, 7 | D-008 | Outreach/promotions over channels + consent | OPEN |
 
 ---
 
@@ -230,6 +233,39 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Confirmation that the new-engine contract includes a **registration API concept** (engine manifest, capability declaration, compatibility check), not just a checklist — since Term 6 depends on it to add verticals.
 - **Why:** Term 6 adds new verticals; a concrete registration contract makes that clean and isolated.
 - **Proposed contract:** Foundation (CN-4-020) defines a manifest + capability declaration + compatibility check; Term 6 follows it to register each vertical without touching the Kernel.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-019 — Messaging channel contract (tenant ↔ customer)
+- **From Term:** 3
+- **To Term(s):** 7
+- **Decision / Topic:** D-008 / Messaging Channels
+- **Boundary Object:** BO-7
+- **What is needed:** An outbound/inbound channel contract so tenants can serve customers over SMS, WhatsApp, Telegram, email — receipts, order updates, notifications, and support replies.
+- **Why:** Tenant ↔ customer service over messaging is core to acquisition and retention.
+- **Proposed contract:** Term 7 exposes a channel-agnostic send/receive capability with delivery status and an `external_reference`; Term 3 designs the tenant UX on top. AI replies are advisory/human-gated.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-020 — Agent channel contract (acquisition / support)
+- **From Term:** 2
+- **To Term(s):** 7
+- **Decision / Topic:** D-008 / Messaging Channels
+- **Boundary Object:** BO-7
+- **What is needed:** A channel contract for agents to reach and support tenants, and to help tenants enable their own channels.
+- **Why:** Agents acquire and provide L1 support, increasingly over messaging apps.
+- **Proposed contract:** Same Term 7 gateway as CTR-019; agent actions over channels are tagged with the agent's ID and audited.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-021 — Outreach / promotions over channels + consent
+- **From Term:** 5
+- **To Term(s):** 4, 7
+- **Decision / Topic:** D-008 / Messaging Channels
+- **Boundary Object:** BO-7
+- **What is needed:** A way to run customer acquisition/outreach and promotions over channels, gated by recorded consent and opt-out.
+- **Why:** Marketing over messaging must respect consent (Foundation primitive) and anti-spam/regional law.
+- **Proposed contract:** Promotion Engine (Term 5) composes campaigns; Foundation's consent primitive (Term 4) gates sends; Term 7 delivers. No send without consent; every send honours opt-out.
 - **Status:** OPEN
 - **Resolution:** —
 

@@ -46,6 +46,7 @@ A **boundary object** is one artifact that several Terms must agree on. Each has
 | BO-4 | **Agent attribution + referral model** (D-003) | 1 (policy) → 2 (experience) | 3, 7 | Multi-agent rules; who owns a referred tenant; transfer/arbitration |
 | BO-5 | **Naming, scope policy, event contracts** (Charter §8.1) | 4 | all | `<engine>.<noun>.<verb>.v<n>`; branch- vs business-scope; stable event shapes |
 | BO-6 | **Decision Journal & audit fields** | 4 | 1, 2, 3, 5, 6, 7 | What every audited/AI action records |
+| BO-7 | **Messaging Channels** (D-008) | 7 (gateway) | 2, 3, 5, 4 | Channel adapters; tenant↔customer + agent use; outreach + consent; advisory-only AI on channels |
 
 ---
 
