@@ -48,7 +48,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** Verticals must hand payable lines to a shared checkout without checkout knowing the vertical.
 - **Proposed contract:** A line carries {item ref, description, qty, unit price, tax treatment ref, source vertical tag (opaque to checkout), optional discount refs}. Tender carries {method, amount, external reference}.
 - **Status:** NEGOTIATING
-- **Resolution (proposed, D-007):** Saleable Line and Tender are **value shapes** in Foundation (CN-4-021). Pending Term 6 acceptance.
+- **Resolution (delivered, CN-4-021):** Saleable Line is a **value shape** in Foundation carrying {line_id, item_ref, description, quantity, unit_price (pre-tax), tax_treatment_ref (input ref — tax computed at settlement), discount_refs, source_tag (opaque, non-branching), line_total (non-authoritative cache)}. Tender carries {tender_id, method (registered tag), amount, external_ref} — no status (lifecycle-free). Pending Term 6 acceptance.
 
 ### CTR-002 — Verticals feed lines; tender owned by universal
 - **From Term:** 6
@@ -70,7 +70,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** Determines where checkout logic lives and how it stays isolated.
 - **Proposed contract:** Checkout is a **universal engine** in Term 5, built on Foundation's obligation + document + ledger primitives; Foundation adds only the `Saleable Line` + `Tender` value shapes if existing primitives are insufficient.
 - **Status:** NEGOTIATING
-- **Resolution (proposed, D-007):** Accepted by Term 4: Checkout = universal engine in Term 5; Foundation provides the value shapes only. Pending Term 5 acceptance.
+- **Resolution (delivered, CN-4-021):** Checkout = universal engine in Term 5; Foundation provides the value shapes only (Saleable Line + Tender). Settlement logic, tax computation at settlement, change, receipt issuance, and credit→Obligation creation all live in the Term 5 Checkout engine. Pending Term 5 acceptance.
 
 ### CTR-004 — One checkout UI contract + line shape
 - **From Term:** 3
