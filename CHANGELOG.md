@@ -3,6 +3,11 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-26
+
+**Merged to `main`**
+- **Term 4 CN-4-005 (Engine Contract Model)** ratified and merged (commit `2d616aa`). The 10-field engine manifest (declarative; `requires` ⊆ `subscribes_to`; references event types, never engine names; deprecation marker within `emits`); Law 2 isolation enforced at both layers — runtime guards + CI doctrine checks (D-007 #5); subscription framework (emitter-unaware, event-type-based, new subscriber = manifest update only; at-least-once + ordered-within-stream + idempotent-expected, exactly-once = Architect); request-reply possible-but-discouraged (temporal coupling); the status-event + local-projection pattern (resolves O7/O8); pre-write malformed-event validation with hash-chain backstop and structural-vs-business-error distinction (O9/O10). Five open items assigned; CN-4-005/CN-4-020 boundary made explicit. No new CTRs; no Charter conflict.
+
 ## 2026-05-24
 
 **Decision recorded**
