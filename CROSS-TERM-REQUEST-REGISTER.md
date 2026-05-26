@@ -114,7 +114,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** Engine advisors, BI/KPI advisor, agent advisor, and tenant-facing advice all need one consistent, advisory-only contract.
 - **Proposed contract:** Advisor = {audience, scope, model ref}; every suggestion journals {model id+version, data ref, prompt ref, human decision}.
 - **Status:** NEGOTIATING
-- **Resolution (partial, D-007):** Term 4 confirms a distinct "advisor" principal (model id/version + scope), **runtime scope enforcement by the Kernel**, and the journal fields. Framework shape to be finalised in CN-4-022. Pending Term 5/2/3 confirmation.
+- **Resolution (delivered, CN-4-022):** Advisor = {audience (3 Charter §3 categories), scope (tenant / aggregate-opt-in / platform), model (id/version/config_ref)}; **runtime scope enforcement by the Kernel** covering all advisor input incl. prompt assembly; consent-scopes re-evaluated every invocation; advisory-only (reads projections, may produce inert draft commands); **dual-actor audit** (advisor + invoking human); journal fields contributed to CN-4-013 (incl. prompt_ref, model id/version; no full chain-of-thought). Pending Terms 5/2/3 confirmation.
 
 ### CTR-008 — Developer-AI governance + model registry
 - **From Term:** 4
@@ -191,7 +191,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** AI Mode on all dashboards means many model calls; cost and model choice must be governed without changing engine code.
 - **Proposed contract:** Term 1 owns AI cost policy + model registry; Term 4 exposes the model plug-in point; Term 7 confirms advisory-only across all surfaces.
 - **Status:** OPEN
-- **Resolution:** —
+- **Resolution:** Foundation side delivered (CN-4-022): the model plug-in point ({model_id, model_version, model_config_ref}, swappable without framework change). Awaiting Term 1 to define cost governance, model approval, and the model registry.
 
 ### CTR-015 — Adopt one AI Mode dashboard pattern
 - **From Term:** 7
