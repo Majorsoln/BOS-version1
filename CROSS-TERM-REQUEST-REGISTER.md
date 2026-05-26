@@ -29,10 +29,11 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-015 | 7 | 1, 2, 3 | D-005 | Adopt one AI Mode dashboard pattern (CN-7-004) | OPEN |
 | CTR-016 | 4 | 1 | D-007 | Platform scope as a first-class parallel scope | OPEN |
 | CTR-017 | 4 | 7 | D-007 | Document verification: Foundation logic / Term 7 surface | OPEN |
-| CTR-018 | 4 | 6 | D-007 | Extension Points include a registration API concept | OPEN |
+| CTR-018 | 4 | 6 | D-007 | Extension Points include a registration API concept | NEGOTIATING |
 | CTR-019 | 3 | 7 | D-008 | Messaging channel contract (tenant↔customer) | OPEN |
 | CTR-020 | 2 | 7 | D-008 | Agent channel contract (acquisition/support) | OPEN |
 | CTR-021 | 5 | 4, 7 | D-008 | Outreach/promotions over channels + consent | OPEN |
+| CTR-022 | 4 | 1 | D-007 | Registered-engine activation + tenant-availability governance | OPEN |
 
 ---
 
@@ -233,8 +234,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Confirmation that the new-engine contract includes a **registration API concept** (engine manifest, capability declaration, compatibility check), not just a checklist — since Term 6 depends on it to add verticals.
 - **Why:** Term 6 adds new verticals; a concrete registration contract makes that clean and isolated.
 - **Proposed contract:** Foundation (CN-4-020) defines a manifest + capability declaration + compatibility check; Term 6 follows it to register each vertical without touching the Kernel.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (proposed, CN-4-020):** Foundation delivered the concrete contract — build-time doctrine gate → runtime registration (manifest submission, compatibility checks, atomic wiring/activation), event-sourced registry, manifest-update flow, capability-as-advertise-only (no coupling), and platform-scoped audited registration. Pending Term 6 acceptance that this contract suffices to add verticals.
 
 ### CTR-019 — Messaging channel contract (tenant ↔ customer)
 - **From Term:** 3
@@ -266,6 +267,17 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** A way to run customer acquisition/outreach and promotions over channels, gated by recorded consent and opt-out.
 - **Why:** Marketing over messaging must respect consent (Foundation primitive) and anti-spam/regional law.
 - **Proposed contract:** Promotion Engine (Term 5) composes campaigns; Foundation's consent primitive (Term 4) gates sends; Term 7 delivers. No send without consent; every send honours opt-out.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-022 — Registered-engine activation & tenant-availability governance
+- **From Term:** 4
+- **To Term(s):** 1
+- **Decision / Topic:** D-007 / Extension Points (CN-4-020)
+- **Boundary Object:** —
+- **What is needed:** Platform governance for: (a) whether a newly registered engine activates automatically after checks pass or requires platform-admin approval; (b) how a registered engine is made available to tenants (always-on vs catalog item per subscription plan).
+- **Why:** Foundation automates registration (the mechanism); Term 1 owns the engine catalog and what tenants see and pay for. The two must not be conflated.
+- **Proposed contract:** Foundation registers and activates engines technically; Term 1 controls tenant-facing availability and may add a human-approval gate before activation.
 - **Status:** OPEN
 - **Resolution:** —
 
