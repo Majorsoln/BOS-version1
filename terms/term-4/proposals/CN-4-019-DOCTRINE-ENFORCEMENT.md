@@ -115,9 +115,9 @@ Every Section 8 success criterion expressible as an automated test becomes a doc
 
 | Type | How it works | Count | Examples |
 |------|-------------|-------|---------|
-| **Static analysis** | Scans code without running it. Detects forbidden patterns (imports, `datetime.now()`, snapshot-as-source, advisor-writes). Fast, runs on every commit. | 11 | DC-001, DC-009, DC-014, DC-015, DC-017, DC-018, DC-022, DC-025, DC-026, DC-034 (partial), DC-036 (partial) |
-| **Integration test** | Runs the system with synthetic test data and verifies invariants hold. Detects runtime violations (cross-tenant leaks, scope guard failures, fold errors, ordering violations). | 17 | DC-002, DC-004, DC-005, DC-006, DC-007, DC-008, DC-011, DC-013, DC-016, DC-019, DC-020, DC-021, DC-024, DC-029, DC-030, DC-031, DC-032, DC-035, DC-037 |
-| **Schema/manifest validation** | Validates declared schemas and manifests against contracts. Detects structural mismatches. | 9 | DC-003, DC-010, DC-012, DC-023, DC-027, DC-028, DC-033, DC-034 (partial), DC-036 (partial) |
+| **Static analysis** | Scans code without running it. Detects forbidden patterns (imports, `datetime.now()`, snapshot-as-source, advisor-writes). Fast, runs on every commit. | 9 | DC-001, DC-009, DC-014, DC-015, DC-017, DC-018, DC-022, DC-025, DC-026 |
+| **Integration test** | Runs the system with synthetic test data and verifies invariants hold. Detects runtime violations (cross-tenant leaks, scope guard failures, fold errors, ordering violations). | 19 | DC-002, DC-004, DC-005, DC-006, DC-007, DC-008, DC-011, DC-013, DC-016, DC-019, DC-020, DC-021, DC-024, DC-029, DC-030, DC-031, DC-032, DC-035, DC-037 |
+| **Schema/manifest validation** | Validates declared schemas and manifests against contracts. Detects structural mismatches. | 9 | DC-003, DC-010, DC-012, DC-023, DC-027, DC-028, DC-033, DC-034, DC-036 |
 
 All three types run as part of the doctrine gate (CN-4-023). The Architect decides the exact tooling (linters, test frameworks, validators); the concept defines what each check must verify.
 
