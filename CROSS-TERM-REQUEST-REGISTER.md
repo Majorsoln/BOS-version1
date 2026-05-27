@@ -20,7 +20,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-006 | 5 | 7 | D-001 | Payment adapters attach at tender boundary | OPEN |
 | CTR-007 | 5, 2, 3 | 4 | D-002A | Advisor Framework contract + model identity | NEGOTIATING |
 | CTR-008 | 4 | 1 | D-002B | Developer-AI governance + model registry | OPEN |
-| CTR-009 | 3 | 4, 5 | D-002A | AI explainability fields surfaced to UI | ACCEPTED |
+| CTR-009 | 3 | 4, 5 | D-002A | AI explainability fields surfaced to UI | CLOSED |
 | CTR-010 | 7 | all | D-002 | Advisory-only invariant holds everywhere | OPEN |
 | CTR-011 | 2 | 1 | D-003 | Referral rules + commission attribution | OPEN |
 | CTR-012 | 3 | 2 | D-003 | Tenant agent-discovery + referral touchpoint | OPEN |
@@ -135,8 +135,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** The Decision Journal must expose enough (recommendation + reasoning summary + data basis) for tenant-facing explainability, per role.
 - **Why:** A tenant must be able to judge whether to trust an AI suggestion (Term 3 trust moments).
 - **Proposed contract:** Journal entry exposes a human-readable recommendation, a short rationale, and a "show your work" data reference; full chain-of-thought is not required.
-- **Status:** ACCEPTED
-- **Resolution (D-007):** Decision Journal exposes recommendation + short rationale + data reference; **no full chain-of-thought**. Foundation defines the schema (CN-4-013/022).
+- **Status:** CLOSED
+- **Resolution (delivered, CN-4-013):** Decision Journal full 14-field schema delivered — recommendation, short rationale, point-in-time `data_ref` ("show your work"), **no full chain-of-thought** (D-007 #6). The journal is an event-sourced specialised audit log (extends CN-4-008); Term 3 reads these fields for explainability UX. Contract delivered and accepted — closed.
 
 ### CTR-010 — Advisory-only invariant holds everywhere
 - **From Term:** 7
