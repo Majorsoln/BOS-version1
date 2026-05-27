@@ -31,7 +31,7 @@ Every **state-changing action** in BOS produces an audit entry.
 
 ### What Does NOT Get Audited (at this layer)
 
-- **Pure reads** by tenant users (reading their own dashboard) — not state-changing. Read-level logging (access logs) is an Architect/infrastructure concern, not a Kernel audit concern.
+- **In-scope reads by the data owner** (a tenant user reading their own dashboard) — not state-changing, not cross-scope. Read-level logging for these is an Architect/infrastructure concern. **Important distinction:** cross-scope and platform-scope reads ARE audited (Section 8 #10, CN-4-006 §2, DC-011/DC-020) — a platform admin querying a tenant's data is always an audited operation, even though it is a read, because it crosses scope boundaries.
 - **Engine-internal computation** (calculating a total, formatting a template) — only the resulting event/command matters.
 
 ---
@@ -39,6 +39,8 @@ Every **state-changing action** in BOS produces an audit entry.
 ## 3. Audit Entry Schema
 
 Every audit entry contains these fields. This is the **general schema** — specialised audit logs extend it with domain-specific fields.
+
+**Granularity:** One audit entry per event. Each event in the store has its own audit entry with its own `event_ref`. A command that produces multiple events atomically (CN-4-004 §2, step 4a) produces multiple audit entries, all sharing the same `correlation_id`. The full "lifecycle of a command" is reconstructed by querying all entries with that `correlation_id`.
 
 | Field | Description |
 |-------|-------------|
@@ -171,7 +173,7 @@ She can answer her own question: "Yes, platform admin-042 accessed my data on Ma
 | Item | Assigned to | Notes |
 |------|-------------|-------|
 | Audit query API design (pagination, filtering, export format) | Architect phase | Concept defines query dimensions; Architect designs the API |
-| Retention policy (how long audit entries are kept) | Term 1 | Legal requirements may mandate long retention |
+| Retention policy (how long audit entries are kept) | Term 1 | Retention operates on the projection/archival layer only — source events are never deleted (CN-4-001). Right-to-erasure is a separate future decision (crypto-shredding, flagged in CN-4-006 §9) — it does not mean deleting audit entries. Legal requirements may mandate long retention. |
 | Read-level access logging (should non-state-changing reads be logged?) | Architect phase / Future decision | Concept audits state changes; read logging is infrastructure |
 | Audit-completeness doctrine check (DC-NNN) | CN-4-019 (living-catalog) | Will be added as a formal check once this doc is merged |
 | Performance of large-range queries (regulator requests) | Architect phase | Concept guarantees pagination; optimisation is Architect's |
