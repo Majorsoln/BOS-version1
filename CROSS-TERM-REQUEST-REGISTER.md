@@ -125,7 +125,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** Build-time AI must never modify the runtime without human + test gates; governance lives with Platform Stewards.
 - **Proposed contract:** Developer-AI runs outside the kernel; Claude Code implements via PR; release only after human review + CI (tests + doctrine invariants); Term 1 owns approvals and the model registry.
 - **Status:** OPEN
-- **Resolution:** —
+- **Resolution:** Foundation side delivered (CN-4-023): the out-of-kernel boundary (Developer-AI never runs in/writes to the kernel; no special treatment for AI PRs; synthetic/anonymised test data) and the doctrine gate (no-override, fail-closed, heightened doctrine-check-update process, build-provenance attestation). Awaiting Term 1 to govern trigger authority, approval authority, the model registry, build-action audit, and attestation retention.
 
 ### CTR-009 — AI explainability fields surfaced to UI
 - **From Term:** 3
