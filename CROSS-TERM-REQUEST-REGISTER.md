@@ -28,7 +28,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-014 | 1 | 4, 7 | D-005 | AI Mode cost governance + model approval | OPEN |
 | CTR-015 | 7 | 1, 2, 3 | D-005 | Adopt one AI Mode dashboard pattern (CN-7-004) | OPEN |
 | CTR-016 | 4 | 1 | D-007 | Platform scope as a first-class parallel scope | OPEN |
-| CTR-017 | 4 | 7 | D-007 | Document verification: Foundation logic / Term 7 surface | OPEN |
+| CTR-017 | 4 | 7 | D-007 | Document verification: Foundation logic / Term 7 surface | NEGOTIATING |
 | CTR-018 | 4 | 6 | D-007 | Extension Points include a registration API concept | NEGOTIATING |
 | CTR-019 | 3 | 7 | D-008 | Messaging channel contract (tenant↔customer) | OPEN |
 | CTR-020 | 2 | 7 | D-008 | Agent channel contract (acquisition/support) | OPEN |
@@ -223,8 +223,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Agreement that Foundation owns the verification **logic + hash check**, while Term 7 owns the **external-facing surface** (the public portal) and **offline/cached** verification.
 - **Why:** Verification = hash-chain integrity (Foundation's core promise), but the public exposure is an integration concern.
 - **Proposed contract:** Foundation exposes a verify(document, hash) capability; Term 7 builds the public/QR surface and offline cache around it.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (Foundation side delivered, CN-4-012):** Foundation owns the verification **logic + hash check** — the document hash (over content + template/pack version refs + number) is stored inside the `document.issued.v1` event and is itself chain-protected (CN-4-003). **Open question raised for Term 7:** the hash proves **integrity** (content unchanged), not **authenticity** (that BOS issued it). Term 7 must decide whether the external/offline surface (portal, QR, offline cache) requires **integrity-only (hash check)** or **integrity + authenticity (hash + cryptographic signature)**. Pending Term 7 acceptance + signature decision.
 
 ### CTR-018 — Extension Points include a registration API concept
 - **From Term:** 4
