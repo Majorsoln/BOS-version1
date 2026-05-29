@@ -3,6 +3,11 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-28
+
+**Term 5 — Universal Engines BEGINS**
+- **Term 5 CN-5-100 (Subscription Wiring Patterns)** ratified and merged (commit `8f23d9b`) — Term 5's first concept doc, the cross-engine wiring contract every other Term 5 doc builds on. **Five named patterns** (P1 fan-out, P2 projection-only, P3 command-emitting, P4 compensation, P5 choreography-sequence). **Five laws** (events-only; declarative subscriptions in the manifest; choreography-only/no orchestrator; subscribers emit events only through the bus; idempotency is a framework property via processed_position). **Subscription declaration** extends CN-4-005's `subscribes_to` with per-entry `{event_type, version, handler, kind, scope_ref}`. **Replay semantics (Q2):** `kind ∈ {projection, command_emitting, compensation}` — command_emitting/compensation handlers are **live-only, not re-run on replay** (their derivative events are first-class store events replayed as themselves; grounded in CN-4-009 "replay never emits events"). **Failure/freshness (Q3):** per-subscriber stale-but-available + at-least-once redelivery + resume from processed_position + CN-4-017 lag escalation; a failing subscriber lags but never invalidates truth. **No private events (Q4)** — manifest `emits` marks cross-engine contract events (additive-only forever, CN-4-002). **No ordering between fan-out subscribers** (emergent choreography); **causation_id linkage** makes the choreography traceable end-to-end without an orchestrator (audit substitute, CN-4-008). Fan-in = CN-4-005 status-event + local-projection (not a new pattern) → CN-5-104. Mama Amina retail-sale example (engine-contract tone, D-004 #4). No new CTRs; no Charter conflict.
+
 ## 2026-05-27
 
 **Merged to `main` — Term 4 Phase 3 (13/13) — FOUNDATION CONCEPT PHASE COMPLETE (23/23 CN docs + 11 brief sections)**
