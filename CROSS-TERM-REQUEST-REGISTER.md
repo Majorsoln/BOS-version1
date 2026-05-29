@@ -34,6 +34,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-020 | 2 | 7 | D-008 | Agent channel contract (acquisition/support) | OPEN |
 | CTR-021 | 5 | 4, 7 | D-008 | Outreach/promotions over channels + consent | OPEN |
 | CTR-022 | 4 | 1 | D-007 | Registered-engine activation + tenant-availability governance | OPEN |
+| CTR-023 | 5 | 4 | — | Per-operation scope_ref in manifest (additive CN-4-005 amendment) | OPEN |
+| CTR-024 | 5 | 6 | — | Verticals carry `site_id` in payload of site-scope events | OPEN |
 
 ---
 
@@ -214,6 +216,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Proposed contract:** Foundation provides a platform scope parallel to tenant scope; every platform-scope access is audited; Term 1 defines which platform roles may use it.
 - **Status:** OPEN
 - **Resolution:** —
+- **Note (CN-5-101):** Term 5 keeps universal engines OFF platform scope — Reporting emits per-tenant metrics (tenant-scope); **billing/usage aggregation across tenants is Term 1's platform-scope concern and folds into this CTR** (no separate CTR). Dual-trail audit (CN-4-006 §2) applies.
 
 ### CTR-017 — Document verification: Foundation logic / Term 7 surface
 - **From Term:** 4
@@ -278,6 +281,28 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Platform governance for: (a) whether a newly registered engine activates automatically after checks pass or requires platform-admin approval; (b) how a registered engine is made available to tenants (always-on vs catalog item per subscription plan).
 - **Why:** Foundation automates registration (the mechanism); Term 1 owns the engine catalog and what tenants see and pay for. The two must not be conflated.
 - **Proposed contract:** Foundation registers and activates engines technically; Term 1 controls tenant-facing availability and may add a human-approval gate before activation.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-023 — Per-operation scope_ref in manifest (additive CN-4-005 amendment)
+- **From Term:** 5
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-5-101 (Scope Policy Application)
+- **Boundary Object:** BO-5 (manifest)
+- **What is needed:** An additive amendment to CN-4-005's manifest: `scope_policy` becomes the engine **default**; each command and each subscription entry may declare its own `scope_ref` (`site` | `tenant` | `platform`). This lets one engine host operations at different scopes (e.g., Cash: drawer = site, consolidated position = tenant). Also aligns scope-level names to `site/tenant/platform` (supersedes the informal "branch/business" wording in CN-4-005/CN-4-011).
+- **Why:** Multi-scope universal engines (Cash, Reporting) cannot work under a single engine-wide scope. CN-5-100 already used per-subscription `scope_ref`; this formalises it and adds per-command scope.
+- **Proposed contract:** Additive only — existing single `scope_policy` remains valid as the default; per-operation `scope_ref` is optional and overrides the default where present. No breaking change.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-024 — Verticals carry `site_id` in payload of site-scope events
+- **From Term:** 5
+- **To Term(s):** 6
+- **Decision / Topic:** — / arose from CN-5-101 (Scope Policy Application)
+- **Boundary Object:** BO-1
+- **What is needed:** Vertical engines that emit events consumed by site-scoped universal-engine subscriptions must include a neutral `site_id` (intra-tenant location/site partition) in the event payload, so site-scope handler dispatch (CN-5-101) resolves correctly.
+- **Why:** `site_id` is a Term 5 payload concept, not a Foundation envelope field (CN-4-002 has tenant_id only). Universal engines need it from the vertical's emission to scope per site.
+- **Proposed contract:** Site-scope events carry `site_id` in payload; tenant-wide events need not. Naming is neutral (`site_id`, not retail-flavoured "branch").
 - **Status:** OPEN
 - **Resolution:** —
 

@@ -26,5 +26,7 @@ Every Term uses these words the same way. New entries are added by Term 7 when a
 | **Compensating Event** | A new event that corrects the effect of a prior event without deleting or modifying it. | CN-4-001; D-007 #3. |
 | **Fold** | The deterministic function that replays a sequence of events to produce current state; defined per primitive. | CN-4-001; CN-4-011. |
 | **Replay** | Running events through fold logic to reconstruct state at any point in time. | CN-4-001; CN-4-009. |
+| **Site** | An **intra-tenant location/site partition** (a shop, branch, hotel property, outlet, clinic) — a Term 5 **payload** concept (`site_id`), not a Foundation envelope field. | CN-5-101. The informal "branch-level" scope in CN-4-005/CN-4-011 means **site-level**; neutral term is "site" (D-004). |
+| **Scope level** | Where an engine operation runs: **site** (intra-tenant partition), **tenant** (whole tenant / "business-wide"), or **platform** (parallel cross-tenant, rare, dual-audited). | CN-5-101; CN-4-006 (platform scope). |
 
 *— End of Master Glossary —*
