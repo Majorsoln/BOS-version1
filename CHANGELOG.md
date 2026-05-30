@@ -3,6 +3,11 @@
 > Records every change to the Charter and to cross-Term decisions.
 > Managed by Term 7 — Integration & Coherence (Charter §11).
 
+## 2026-05-30
+
+**Foundation living-document amendment (Charter §11)**
+- **CN-4-005 (Engine Contract Model)** amended additively (commit `76dd67d`) per **CTR-023** from Term 5. `scope_policy` becomes the engine **default**; `subscribes_to` and `commands` may each declare an optional `scope_ref` override at one of three level names — **`site` / `tenant` / `platform`** — replacing the informal "branch/business" wording. New **§1.1 "Scope Levels and Per-Operation Override"** added (levels table, default+override mechanism, additive guarantee, provenance from CN-5-100/CN-5-101). **`site` is a payload concept** (intra-tenant location partition); CN-4-002 envelope unchanged. Manifests with only `scope_policy` remain fully valid (no breaking change); engine isolation (Law 2) unaffected. Authored by Term 4 (D-006) on a Concept-Lead-authorised re-activation. **CTR-023 → CLOSED.**
+
 ## 2026-05-28
 
 **Term 5 — Universal Engines BEGINS**

@@ -34,7 +34,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-020 | 2 | 7 | D-008 | Agent channel contract (acquisition/support) | OPEN |
 | CTR-021 | 5 | 4, 7 | D-008 | Outreach/promotions over channels + consent | OPEN |
 | CTR-022 | 4 | 1 | D-007 | Registered-engine activation + tenant-availability governance | OPEN |
-| CTR-023 | 5 | 4 | — | Per-operation scope_ref in manifest (additive CN-4-005 amendment) | OPEN |
+| CTR-023 | 5 | 4 | — | Per-operation scope_ref in manifest (additive CN-4-005 amendment) | CLOSED |
 | CTR-024 | 5 | 6 | — | Verticals carry `site_id` in payload of site-scope events | OPEN |
 
 ---
@@ -292,8 +292,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** An additive amendment to CN-4-005's manifest: `scope_policy` becomes the engine **default**; each command and each subscription entry may declare its own `scope_ref` (`site` | `tenant` | `platform`). This lets one engine host operations at different scopes (e.g., Cash: drawer = site, consolidated position = tenant). Also aligns scope-level names to `site/tenant/platform` (supersedes the informal "branch/business" wording in CN-4-005/CN-4-011).
 - **Why:** Multi-scope universal engines (Cash, Reporting) cannot work under a single engine-wide scope. CN-5-100 already used per-subscription `scope_ref`; this formalises it and adds per-command scope.
 - **Proposed contract:** Additive only — existing single `scope_policy` remains valid as the default; per-operation `scope_ref` is optional and overrides the default where present. No breaking change.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** CLOSED
+- **Resolution (delivered, CN-4-005 amendment commit `76dd67d`):** CN-4-005 amended additively — header carries CTR-023 reference; `scope_policy` becomes the engine **default** with levels `site` / `tenant` / `platform`; `subscribes_to` and `commands` entries may each carry an optional `scope_ref` override. New **§1.1 "Scope Levels and Per-Operation Override"** added (levels table, default+override mechanism, "additive" guarantee, provenance from CN-5-100/CN-5-101). `site` is a payload concept; CN-4-002 envelope unchanged. Closed by both sides (Term 5 requested → Term 4 delivered).
 
 ### CTR-024 — Verticals carry `site_id` in payload of site-scope events
 - **From Term:** 5
