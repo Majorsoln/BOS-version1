@@ -372,6 +372,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Proposed contract:** Term 1 stands up a chartered-accountant review pipeline per supported jurisdiction; each accepted standard becomes a versioned pack (`tz-compliance-YYYY.MM` carrying TFRS-TZ, etc.). Standard updates (e.g., IFRS-15 amendment) follow normal pack-version freeze (D-009). Tenant↔jurisdiction binding (CTR-027) determines which pack — hence which standard — a tenant runs under.
 - **Status:** OPEN
 - **Resolution:** —
+- **Expansion note (CN-5-003):** The pack section is **extended** with an `inventory_costing` subsection (allowed_methods, default_method, category_defaults, tenant_override_allowed, per_item_override_allowed, offcut_cost_allocation). Standard-dependent: IFRS packs exclude LIFO (IAS 2, 2003 revision); US GAAP packs may include it. Term 1 governance covers per-jurisdiction approval of the inventory-costing content alongside accounting-standard content.
 
 ### CTR-030 — Vertical event payloads carry data sufficient for Accounting journal mapping
 - **From Term:** 5
@@ -383,5 +384,6 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Proposed contract:** Each Term 6 vertical event subscribed by Accounting (per CN-5-001 catalog) declares a payload contract sufficient for journal mapping under any supported standard pack. CN-5-001 publishes the field expectations per subscribed event type; Term 6 verticals conform.
 - **Status:** OPEN
 - **Resolution:** —
+- **Expansion note (CN-5-003):** Pattern B (vertical-emitted consumption) requires concrete event contracts from each opting-in vertical — `restaurant.ingredient.consumed.v1`, `hotel.amenity.consumed.v1`, `workshop.cut.executed.v1` (with offcut spec), `workshop.parametric.consumed.v1`. Payload shapes specified in CN-5-003 §5/§10/§11 (consumed_items list with item_ref + qty + optional substituted_for/reason; for cuts, parent + cuts[] + offcuts[]). Verticals must also include `expansion_mode: auto | vertical_managed` per-line on `<vertical>.bill.ready.v1` so Inventory's `deduct_from_sale` knows whether to skip Pattern A and wait for Pattern B emissions. Pairs with CTR-024 (site_id payload) and CTR-026 (UI-03 source-ref / UI-09 site_id).
 
 *— End of Cross-Term Request Register —*
