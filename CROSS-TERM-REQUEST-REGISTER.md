@@ -36,6 +36,9 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-022 | 4 | 1 | D-007 | Registered-engine activation + tenant-availability governance | OPEN |
 | CTR-023 | 5 | 4 | — | Per-operation scope_ref in manifest (additive CN-4-005 amendment) | CLOSED |
 | CTR-024 | 5 | 6 | — | Verticals carry `site_id` in payload of site-scope events | OPEN |
+| CTR-025 | 5 | 4 | — | Add DC-038..041 (Phase 0 mechanizable UI invariants) to CN-4-019 living catalog | OPEN |
+| CTR-026 | 5 | 6 | — | Verticals respect UI-03 (inventory source ref) and UI-09 (site_id in registry) | OPEN |
+| CTR-027 | 5 | 1, 2 | — | Tenant site registry (T2 onboarding; T1 governance) + tenant functional currency registry (T1) | OPEN |
 
 ---
 
@@ -303,6 +306,41 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Vertical engines that emit events consumed by site-scoped universal-engine subscriptions must include a neutral `site_id` (intra-tenant location/site partition) in the event payload, so site-scope handler dispatch (CN-5-101) resolves correctly.
 - **Why:** `site_id` is a Term 5 payload concept, not a Foundation envelope field (CN-4-002 has tenant_id only). Universal engines need it from the vertical's emission to scope per site.
 - **Proposed contract:** Site-scope events carry `site_id` in payload; tenant-wide events need not. Naming is neutral (`site_id`, not retail-flavoured "branch").
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-025 — Add DC-038..041 (Phase 0 mechanizable UI invariants) to CN-4-019 living catalog
+- **From Term:** 5
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-5-102 (Engine Invariants) Phase 0 ramp-up
+- **Boundary Object:** —
+- **What is needed:** Add four new doctrine checks to CN-4-019's living catalog (Charter §11 + CN-4-019 §5 living-catalog rules): **DC-038** UI-01 causation_id integrity on derivative events; **DC-039** UI-03 inventory movement source-ref present; **DC-040** UI-06 functional-currency invariant per tenant (extends DC-037 from per-settlement to tenant scope); **DC-041** UI-09 site_id registry lookup. These are mechanizable now; Phase 1 invariants depend on per-engine docs and will arrive via later CTRs.
+- **Why:** CN-5-102 catalog includes invariants that map to concrete doctrine checks; adding them to CN-4-019 now operationalises the cross-engine guarantees in CI/runtime rather than as prose-only.
+- **Proposed contract:** Term 4 (re-activated kifupi per Concept Lead authorisation, like CN-4-005 amendment) extends CN-4-019 §2 with DC-038..041 in the appropriate categories; updates Type table (§3); updates Law mapping (§4) where relevant; increments doc total from 37 to 41.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-026 — Verticals respect UI-03 (inventory source ref) and UI-09 (site_id in registry)
+- **From Term:** 5
+- **To Term(s):** 6
+- **Decision / Topic:** — / arose from CN-5-102 (Engine Invariants)
+- **Boundary Object:** BO-1
+- **What is needed:** Vertical engines that emit events feeding universal-engine inventory or site-scope subscriptions must (a) include a typed **source ref** on every inventory-affecting event payload (UI-03), and (b) use a `site_id` that exists in the tenant's site registry (UI-09).
+- **Why:** Universal-engine invariants (UI-03 stock movements have source; UI-09 site_id in registry) cannot hold if the upstream vertical emissions are loose. The doctrine has to be respected at the emission boundary.
+- **Proposed contract:** Term 6 confirms its vertical engines (current and future) emit conformant payloads; UI-03/UI-09 enforcement happens at the universal-engine subscription dispatch (hard-fail) per CN-5-101 §5. Pairs with CTR-024 (site_id in payload).
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-027 — Tenant site registry + tenant functional currency registry
+- **From Term:** 5
+- **To Term(s):** 1, 2
+- **Decision / Topic:** — / arose from CN-5-102 (Engine Invariants — UI-06 currency; UI-09 site_id)
+- **Boundary Object:** —
+- **What is needed:** Two tenant-property registries, governed under platform policy and populated at tenant onboarding:
+  - **Site registry** — the canonical list of `site_id` values for a tenant (set by the regional agent at onboarding per Law 6, like fiscal zone in CN-4-014; governance for additions/changes by Term 1).
+  - **Functional currency registry** — the tenant's declared functional currency (a tenant property, like fiscal zone); governance by Term 1.
+- **Why:** UI-09 needs an authoritative list of valid `site_id`s to validate against. UI-06 needs an authoritative functional currency per tenant. Both are tenant properties, not engine state; Term 1 governs, Term 2 populates at onboarding.
+- **Proposed contract:** Term 1 defines the governance lifecycle (who may register/change a site; who may change functional currency — likely with strict approval given freeze implications similar to fiscal zone). Term 2 wires registry population into the regional-agent onboarding flow. Term 5 universal engines look up these registries at dispatch (UI-09) or at command evaluation (UI-06). Not folded into CTR-016 — those are platform-scope mechanism; these are tenant-property registries.
 - **Status:** OPEN
 - **Resolution:** —
 
