@@ -40,6 +40,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-026 | 5 | 6 | — | Verticals respect UI-03 (inventory source ref) and UI-09 (site_id in registry) | OPEN |
 | CTR-027 | 5 | 1, 2 | — | Tenant site registry (T2 onboarding; T1 governance) + tenant functional currency registry (T1) | OPEN |
 | CTR-028 | 5 | 7, 1 | D-001 | Tender method registry — category vocabulary + provider declarations + governance | OPEN |
+| CTR-029 | 5 | 1 | — | Accounting-standard pack-section content + governance per jurisdiction (IFRS, TFRS-TZ, GAAP, …) | OPEN |
+| CTR-030 | 5 | 6 | — | Vertical event payloads carry data sufficient for Accounting journal mapping | OPEN |
 
 ---
 
@@ -357,6 +359,28 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
   - **Provider per category** declared by **Term 7** adapters (e.g., `mobile_money: M-Pesa`, `mobile_money: Tigo Pesa`).
   - **Approval of new categories or providers** → **Term 1** (governance + audit + compliance review).
   - **Checkout reads** registry at command evaluation; bus rejects unknown methods.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-029 — Accounting-standard pack-section content + governance per jurisdiction
+- **From Term:** 5
+- **To Term(s):** 1
+- **Decision / Topic:** — / arose from CN-5-001 (Accounting Engine); operationalises Law 5 + Charter §1.4 (local by law)
+- **Boundary Object:** —
+- **What is needed:** CN-5-001 defines the **schema** of a new compliance-pack section (`accounting:` — chart-of-accounts base, recognition rules, reporting templates, depreciation, FX, period_calendar) per jurisdiction's accounting standard (IFRS, TFRS-TZ, US GAAP, …). Term 1 governs **content authorship and approval** per jurisdiction (pack approval gate, CN-4-015 + CN-4-023 two-gates model) and the chartered-accountant review process for pack content.
+- **Why:** Each country's accounting standard differs (recognition rules, reporting formats, depreciation methods). Standards live in packs (Law 5, D-009 freeze); CN-5-001 owns the schema, Term 1 owns the content lifecycle and country-by-country approval.
+- **Proposed contract:** Term 1 stands up a chartered-accountant review pipeline per supported jurisdiction; each accepted standard becomes a versioned pack (`tz-compliance-YYYY.MM` carrying TFRS-TZ, etc.). Standard updates (e.g., IFRS-15 amendment) follow normal pack-version freeze (D-009). Tenant↔jurisdiction binding (CTR-027) determines which pack — hence which standard — a tenant runs under.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-030 — Vertical event payloads carry data sufficient for Accounting journal mapping
+- **From Term:** 5
+- **To Term(s):** 6
+- **Decision / Topic:** — / arose from CN-5-001 (Accounting Engine)
+- **Boundary Object:** BO-1 (lines/tenders) / BO-5 (event contracts)
+- **What is needed:** Vertical engines (Retail, Restaurant, Hotel, Workshop, future verticals) must include sufficient typed payload on revenue/expense events for Accounting to derive (a) recognition timing, (b) correct chart-of-accounts mapping per pack, (c) COGS basis, (d) tax treatment ref, (e) site_id (CTR-024 ties in). Insufficient payload = Accounting cannot generate a complete journal entry = UI-07 trial balance integrity at risk.
+- **Why:** A1 (standards in packs) and A2 (auto-journal completeness) only hold if upstream emissions carry the data Accounting needs for the active pack's recognition rules. The contract must be defined at the vertical-emission boundary.
+- **Proposed contract:** Each Term 6 vertical event subscribed by Accounting (per CN-5-001 catalog) declares a payload contract sufficient for journal mapping under any supported standard pack. CN-5-001 publishes the field expectations per subscribed event type; Term 6 verticals conform.
 - **Status:** OPEN
 - **Resolution:** —
 
