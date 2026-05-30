@@ -28,5 +28,6 @@ Every Term uses these words the same way. New entries are added by Term 7 when a
 | **Replay** | Running events through fold logic to reconstruct state at any point in time. | CN-4-001; CN-4-009. |
 | **Site** | An **intra-tenant location/site partition** (a shop, branch, hotel property, outlet, clinic) — a Term 5 **payload** concept (`site_id`), not a Foundation envelope field. | CN-5-101. The informal "branch-level" scope in CN-4-005/CN-4-011 means **site-level**; neutral term is "site" (D-004). |
 | **Scope level** | Where an engine operation runs: **site** (intra-tenant partition), **tenant** (whole tenant / "business-wide"), or **platform** (parallel cross-tenant, rare, dual-audited). | CN-5-101; CN-4-006 (platform scope). |
+| **Universal-engine Invariant (UI-NN)** | A **state-shape** rule that must hold across two or more universal engines (cross-engine), distinct from per-engine business rules and from primitive folds. Numbered UI-01, UI-02, … The catalog is living (mechanized invariants become DC checks in CN-4-019 via CTR). | CN-5-102. Boundary: cross-engine state-shape, not behavior (CN-5-100/101 own behavior). |
 
 *— End of Master Glossary —*
