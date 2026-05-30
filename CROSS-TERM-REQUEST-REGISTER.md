@@ -14,10 +14,10 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 |-----|------|----|----------|-------|--------|
 | CTR-001 | 6 | 4 | D-001 | Saleable Line / Tender primitive | NEGOTIATING |
 | CTR-002 | 6 | 5 | D-001 | Verticals feed lines; tender owned by universal | OPEN |
-| CTR-003 | 5 | 4 | D-001 | Checkout: primitive or universal engine? | NEGOTIATING |
+| CTR-003 | 5 | 4 | D-001 | Checkout: primitive or universal engine? | CLOSED |
 | CTR-004 | 3 | 5, 6 | D-001 | One checkout UI contract + line shape | OPEN |
-| CTR-005 | 1 | 5, 6 | D-001 | Checkout: always-on vs catalog item | OPEN |
-| CTR-006 | 5 | 7 | D-001 | Payment adapters attach at tender boundary | OPEN |
+| CTR-005 | 1 | 5, 6 | D-001 | Checkout: always-on vs catalog item | NEGOTIATING |
+| CTR-006 | 5 | 7 | D-001 | Payment adapters attach at tender boundary | NEGOTIATING |
 | CTR-007 | 5, 2, 3 | 4 | D-002A | Advisor Framework contract + model identity | NEGOTIATING |
 | CTR-008 | 4 | 1 | D-002B | Developer-AI governance + model registry | OPEN |
 | CTR-009 | 3 | 4, 5 | D-002A | AI explainability fields surfaced to UI | CLOSED |
@@ -54,7 +54,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Why:** Verticals must hand payable lines to a shared checkout without checkout knowing the vertical.
 - **Proposed contract:** A line carries {item ref, description, qty, unit price, tax treatment ref, source vertical tag (opaque to checkout), optional discount refs}. Tender carries {method, amount, external reference}.
 - **Status:** NEGOTIATING
-- **Resolution (delivered, CN-4-021):** Saleable Line is a **value shape** in Foundation carrying {line_id, item_ref, description, quantity, unit_price (pre-tax), tax_treatment_ref (input ref — tax computed at settlement), discount_refs, source_tag (opaque, non-branching), line_total (non-authoritative cache)}. Tender carries {tender_id, method (registered tag), amount, external_ref} — no status (lifecycle-free). Pending Term 6 acceptance.
+- **Resolution (delivered, CN-4-021 + CN-5-009):** Saleable Line is a **value shape** in Foundation carrying {line_id, item_ref, description, quantity, unit_price (pre-tax), tax_treatment_ref (input ref — tax computed at settlement), discount_refs, source_tag (opaque, non-branching), line_total (non-authoritative cache)}. Tender carries {tender_id, method (registered tag), amount, external_ref} — no status (lifecycle-free). CN-5-009 (Universal Checkout/Tender Engine) consumes these shapes successfully, demonstrating downstream usability. Pending Term 6 acceptance.
 
 ### CTR-002 — Verticals feed lines; tender owned by universal
 - **From Term:** 6
@@ -75,8 +75,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Foundation ruling on whether Checkout is a primitive or a universal engine built from existing primitives (obligation, document, ledger).
 - **Why:** Determines where checkout logic lives and how it stays isolated.
 - **Proposed contract:** Checkout is a **universal engine** in Term 5, built on Foundation's obligation + document + ledger primitives; Foundation adds only the `Saleable Line` + `Tender` value shapes if existing primitives are insufficient.
-- **Status:** NEGOTIATING
-- **Resolution (delivered, CN-4-021):** Checkout = universal engine in Term 5; Foundation provides the value shapes only (Saleable Line + Tender). Settlement logic, tax computation at settlement, change, receipt issuance, and credit→Obligation creation all live in the Term 5 Checkout engine. Pending Term 5 acceptance.
+- **Status:** CLOSED
+- **Resolution (delivered + accepted, CN-4-021 + CN-5-009):** Checkout = universal engine in Term 5 (CN-5-009); Foundation provides the value shapes only (Saleable Line + Tender). CN-5-009 demonstrates the engine: settlement workflow Phase 1–4, tax computation at settlement (D-009 pack-frozen), atomic finalisation (CN-4-004 §2), credit-tender→Obligation, receipt issuance via CN-4-012. Both sides agreed (Foundation delivered; Term 5 accepted and built upon).
 
 ### CTR-004 — One checkout UI contract + line shape
 - **From Term:** 3
@@ -97,8 +97,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Decision on whether checkout is bundled with every tenant or sold as a catalog item in combos.
 - **Why:** Affects pricing and what a minimal subscription includes.
 - **Proposed contract:** Checkout is an always-on universal capability (every business takes payment); pricing differentiates by vertical engines, not by checkout.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (Term 5 side delivered, CN-5-009):** Term 5 commits to Checkout-as-always-on for every tenant in CN-5-009 (every business takes payment; bundling as a catalog item adds barrier). Pending Term 1 acceptance and Term 6 alignment.
 
 ### CTR-006 — Payment adapters attach at tender boundary
 - **From Term:** 5
@@ -108,8 +108,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Confirmation that mobile-money/card adapters attach at the tender boundary, not inside any vertical.
 - **Why:** Keeps integrations vertical-agnostic; one M-Pesa adapter serves all verticals.
 - **Proposed contract:** Checkout emits a tender request; Term 7 adapter fulfils it and returns an external reference; checkout records the tender.
-- **Status:** OPEN
-- **Resolution:** —
+- **Status:** NEGOTIATING
+- **Resolution (Term 5 side delivered, CN-5-009 §6):** Concrete request/reply contract via events with `callback_correlation_id`: Checkout emits `checkout.tender.requested.v1 {tender_id, method, amount, external_ref?, callback_correlation_id}`; Term 7 adapter consumes, invokes external system, emits `<adapter>.tender.outcome.v1 {tender_id, outcome: confirmed|failed, external_ref, reason?}`; Checkout's subscription handler submits `checkout.tender.confirm.request` or `checkout.tender.fail.request`. Pending Term 7 acceptance.
 
 ### CTR-007 — Advisor Framework contract + model identity
 - **From Term:** 5, 2, 3
