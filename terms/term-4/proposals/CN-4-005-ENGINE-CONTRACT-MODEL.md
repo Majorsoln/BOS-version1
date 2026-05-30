@@ -4,9 +4,11 @@
 > **Term:** 4 — Foundation
 > **Status:** For Overseer review.
 > **Governing decisions:** D-007 #5 (engine isolation: runtime + CI).
+> **CTRs:** CTR-023 (Term 5 → us, additive amendment — per-operation scope_ref).
 > **Glossary:** See `MASTER-GLOSSARY.md`.
 > **Depends on:** CN-4-001 (Doctrine), CN-4-002 (Event Store Contract), CN-4-006 (Isolation).
 > **Boundaries:** New-engine onboarding → CN-4-020/CTR-018; event shape → CN-4-002; commands → CN-4-004; tenant scope → CN-4-006; payloads → CN-4-011; doctrine tests → CN-4-019.
+> **Amendments:** CTR-023 (additive) — per-operation `scope_ref` on commands and subscriptions; level names aligned to `site / tenant / platform`. Originates from CN-5-100 (subscriptions); extended by CN-5-101.
 
 ---
 
@@ -22,11 +24,11 @@ An engine is a bounded module that owns one business domain. It declares itself 
 | **display_name** | Human-readable name |
 | **version** | Engine contract version (the interface version, not the code/release version) |
 | **emits** | List of event types this engine emits, with schema version. Each entry may carry a **deprecation marker** (deprecated since version X, sunset target) to support graceful event-type sunset. |
-| **subscribes_to** | List of event types this engine subscribes to |
+| **subscribes_to** | List of event types this engine subscribes to. Each entry may optionally declare its own `scope_ref` (`site` / `tenant` / `platform`) which overrides the engine's `scope_policy` default for that subscription (see §1.1). |
 | **requires** | The mandatory subset of `subscribes_to` — event types the engine **cannot function without**. `requires` ⊆ `subscribes_to` always. Optional subscriptions (nice-to-have, enrichment) are in `subscribes_to` but not in `requires`. |
-| **commands** | List of commands this engine accepts |
+| **commands** | List of commands this engine accepts. Each entry may optionally declare its own `scope_ref` (`site` / `tenant` / `platform`) which overrides the engine's `scope_policy` default for that command (see §1.1). |
 | **primitives_used** | Which Foundation primitives this engine builds on (ledger, obligation, item, etc.) |
-| **scope_policy** | Whether the engine operates at tenant-level, branch-level, or business-level scope |
+| **scope_policy** | The engine's **default** scope level: `site` / `tenant` / `platform`. Applies to every command and subscription that does not declare its own `scope_ref`. A single `scope_policy` without per-operation overrides remains valid (no breaking change). |
 | **capabilities** | What this engine offers to the system (declared, not assumed) |
 
 ### Design Principles
@@ -35,6 +37,29 @@ An engine is a bounded module that owns one business domain. It declares itself 
 - The manifest is **the Kernel's view of the engine** — the Kernel reads manifests to validate compatibility, route events, and enforce isolation.
 - The manifest **never references another engine by name** in `requires` or `subscribes_to` — it references event types. This preserves decoupling: the engine knows "I need `checkout.settled.v1`" but not "I need the Checkout engine." If the event type is emitted by a different engine tomorrow, the subscription still works.
 - **Deprecation** is expressed within the manifest's `emits` list, not as a separate mechanism. This keeps the lifecycle of an event type visible in the declaration. Ties to CN-4-002 schema versioning (additive only; breaking change = new event type).
+
+### 1.1 Scope Levels and Per-Operation Override (CTR-023)
+
+The Kernel recognises three scope levels:
+
+| Level | Meaning |
+|-------|---------|
+| **site** | An intra-tenant location partition (e.g., a branch, a terminal, a workshop floor). Site is a **payload concept** — it lives inside event payloads and is interpreted by engines. It is **not an envelope field** (CN-4-002 envelope remains unchanged). |
+| **tenant** | The tenant boundary (CN-4-006). The default for most engines. |
+| **platform** | Cross-tenant operation under platform scope (CN-4-006 §2). |
+
+#### Engine Default and Per-Operation Override
+
+The `scope_policy` field declares the engine's **default** level. Each `subscribes_to` entry and each `commands` entry may optionally declare its own `scope_ref` that overrides the default for that single operation.
+
+This is an **additive** capability:
+- A manifest with only `scope_policy` (and no per-operation `scope_ref`) remains fully valid. The default applies to every command and subscription.
+- A manifest may add `scope_ref` selectively — e.g., most commands run at `tenant` scope (the default) while one specific command runs at `site` scope.
+- Per-operation `scope_ref` originates from **CN-5-100** (subscriptions) and is extended by **CN-5-101**. CN-4-005 carries the Kernel-level concept; CN-5-1xx docs apply it.
+
+#### Why Additive
+
+Existing engines do not need to change. New engines that need finer-grained scoping (e.g., a vertical engine where some operations are site-bound and others are tenant-bound) can declare it without restructuring. Engine isolation (Law 2) is unaffected — scope levels constrain what data an operation may touch; they do not enable cross-engine calls.
 
 ---
 
