@@ -39,6 +39,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-025 | 5 | 4 | — | Add DC-038..041 (Phase 0 mechanizable UI invariants) to CN-4-019 living catalog | OPEN |
 | CTR-026 | 5 | 6 | — | Verticals respect UI-03 (inventory source ref) and UI-09 (site_id in registry) | OPEN |
 | CTR-027 | 5 | 1, 2 | — | Tenant site registry (T2 onboarding; T1 governance) + tenant functional currency registry (T1) | OPEN |
+| CTR-028 | 5 | 7, 1 | D-001 | Tender method registry — category vocabulary + provider declarations + governance | OPEN |
 
 ---
 
@@ -341,6 +342,21 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
   - **Functional currency registry** — the tenant's declared functional currency (a tenant property, like fiscal zone); governance by Term 1.
 - **Why:** UI-09 needs an authoritative list of valid `site_id`s to validate against. UI-06 needs an authoritative functional currency per tenant. Both are tenant properties, not engine state; Term 1 governs, Term 2 populates at onboarding.
 - **Proposed contract:** Term 1 defines the governance lifecycle (who may register/change a site; who may change functional currency — likely with strict approval given freeze implications similar to fiscal zone). Term 2 wires registry population into the regional-agent onboarding flow. Term 5 universal engines look up these registries at dispatch (UI-09) or at command evaluation (UI-06). Not folded into CTR-016 — those are platform-scope mechanism; these are tenant-property registries.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-028 — Tender method registry: vocabulary + adapters + governance
+- **From Term:** 5
+- **To Term(s):** 7, 1
+- **Decision / Topic:** D-001 / Universal Checkout · arose from CN-5-009 (Universal Checkout/Tender Engine)
+- **Boundary Object:** BO-1 (Saleable Line / Tender / Checkout)
+- **What is needed:** Per CN-4-021 §3 D, tender `method` is a **registered category tag** validated against a method registry. CN-5-009 needs the registry defined: who owns the category vocabulary, who declares providers per category, and who governs additions.
+- **Why:** Without an authoritative registry, Checkout cannot validate `method` at command time (would degrade to free-form or hardcoded enum, both rejected by CN-4-021 D). The bus must reject unknown methods; that requires a queryable registry.
+- **Proposed contract:**
+  - **Category vocabulary** (`cash`, `mobile_money`, `card`, `bank_transfer`, `credit`, `voucher`, …) governed by **Term 7** — payment categories are integration concerns; Term 7 owns the integration gateway.
+  - **Provider per category** declared by **Term 7** adapters (e.g., `mobile_money: M-Pesa`, `mobile_money: Tigo Pesa`).
+  - **Approval of new categories or providers** → **Term 1** (governance + audit + compliance review).
+  - **Checkout reads** registry at command evaluation; bus rejects unknown methods.
 - **Status:** OPEN
 - **Resolution:** —
 
