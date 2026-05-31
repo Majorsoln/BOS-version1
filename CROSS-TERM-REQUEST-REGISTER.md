@@ -42,6 +42,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-028 | 5 | 7, 1 | D-001 | Tender method registry — category vocabulary + provider declarations + governance | OPEN |
 | CTR-029 | 5 | 1 | — | Accounting-standard pack-section content + governance per jurisdiction (IFRS, TFRS-TZ, GAAP, …) | OPEN |
 | CTR-030 | 5 | 6 | — | Vertical event payloads carry data sufficient for Accounting journal mapping | OPEN |
+| CTR-031 | 5 | 7 | D-001 | Banking adapter contract — deposit handoff + statement reconciliation | OPEN |
 
 ---
 
@@ -385,5 +386,17 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Status:** OPEN
 - **Resolution:** —
 - **Expansion note (CN-5-003):** Pattern B (vertical-emitted consumption) requires concrete event contracts from each opting-in vertical — `restaurant.ingredient.consumed.v1`, `hotel.amenity.consumed.v1`, `workshop.cut.executed.v1` (with offcut spec), `workshop.parametric.consumed.v1`. Payload shapes specified in CN-5-003 §5/§10/§11 (consumed_items list with item_ref + qty + optional substituted_for/reason; for cuts, parent + cuts[] + offcuts[]). Verticals must also include `expansion_mode: auto | vertical_managed` per-line on `<vertical>.bill.ready.v1` so Inventory's `deduct_from_sale` knows whether to skip Pattern A and wait for Pattern B emissions. Pairs with CTR-024 (site_id payload) and CTR-026 (UI-03 source-ref / UI-09 site_id).
+- **Expansion note (CN-5-002):** Verticals that support layby / advance-deposit business models must emit fulfillment events Cash subscribes to (e.g., `workshop.advance_consumed.v1` per fulfillment milestone; `<vertical>.layby_release.v1` on full payment). These drive the reduction of the corresponding Obligation (`kind: advance_received` / `layby`). Payload includes obligation_ref + reduction amount + business_date.
+
+### CTR-031 — Banking adapter contract — deposit handoff + statement reconciliation
+- **From Term:** 5
+- **To Term(s):** 7
+- **Decision / Topic:** D-001 / arose from CN-5-002 (Cash Management Engine)
+- **Boundary Object:** —
+- **What is needed:** A Term 7 banking adapter pattern analogous to but distinct from CTR-006 payment adapters: Cash emits `cash.deposit.requested.v1 {till_id: main_safe, amount, currency, callback_correlation_id, bank_account_ref, business_date}`; banking adapter consumes, invokes bank API / cash-in-transit service; emits `<bank-adapter>.deposit.outcome.v1 {callback_correlation_id, outcome: confirmed | failed, external_ref: <bank txn id>, reason?}`; Cash subscribes and finalises via `cash.deposit.complete.request`. Also covers periodic provider statement events for mobile money wallet digital reconciliation (`<mm-adapter>.statement.received.v1`) which Cash uses to reconcile mobile money tills against provider truth.
+- **Why:** Banking has different semantics from payment-at-tender: deposit destination is an external bank account, settlement times differ, and statement reconciliation is required for both mobile money and (future) bank account tills. Overloading CTR-006 would conflate distinct contract surfaces.
+- **Proposed contract:** Distinct from CTR-006 (payment adapters at tender boundary). Banking adapter handles outbound deposits and inbound statement events. Same request/reply pattern via events + callback_correlation_id; same adapter-emits-outcome-event mechanism. Term 7 builds the adapter; Term 1 governs which banking providers are approved per jurisdiction.
+- **Status:** OPEN
+- **Resolution:** —
 
 *— End of Cross-Term Request Register —*
