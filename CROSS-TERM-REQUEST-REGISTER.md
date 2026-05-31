@@ -374,6 +374,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Status:** OPEN
 - **Resolution:** —
 - **Expansion note (CN-5-003):** The pack section is **extended** with an `inventory_costing` subsection (allowed_methods, default_method, category_defaults, tenant_override_allowed, per_item_override_allowed, offcut_cost_allocation). Standard-dependent: IFRS packs exclude LIFO (IAS 2, 2003 revision); US GAAP packs may include it. Term 1 governance covers per-jurisdiction approval of the inventory-costing content alongside accounting-standard content.
+- **Expansion note (CN-5-002):** The pack section is **further extended** with: (a) `operating_expense_categories` (14 baseline: rent, utilities, fuel, transport, repairs, supplies, communications, staff_welfare, professional_fees, financial_charges, insurance, marketing_advertising, bank_charges, other — pack may extend per jurisdiction); (b) `cash_reconciliation.variance_thresholds` per till kind (auto-adjust + anomaly bands; tenant override ±50%); (c) `multi_currency_policy` (allowed currencies, FX rate sourcing rules); (d) `tip_tax_routing` (taxable wages vs pass-through per jurisdiction).
 
 ### CTR-030 — Vertical event payloads carry data sufficient for Accounting journal mapping
 - **From Term:** 5
