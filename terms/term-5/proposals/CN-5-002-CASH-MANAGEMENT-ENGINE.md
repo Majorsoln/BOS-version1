@@ -208,7 +208,7 @@ subscribes_to:
   - {event_type: hr.loan.approved.v1,                  version: 1, handler: disburse_employee_loan,       kind: command_emitting, scope_ref: site}
 
   # Payroll deduction (settles employee loan Obligation)
-  - {event_type: payroll.deduction.applied.v1,         version: 1, handler: record_loan_repayment,        kind: command_emitting, scope_ref: tenant}
+  - {event_type: hr.payroll.deduction.applied.v1,      version: 1, handler: record_loan_repayment,        kind: command_emitting, scope_ref: tenant}
 
   # Vertical layby/advance fulfillment (CTR-030 expansion — per-vertical entries grow manifest)
   - {event_type: <vertical>.advance_consumed.v1,       version: 1, handler: reduce_advance_obligation,    kind: command_emitting, scope_ref: site}
@@ -435,8 +435,8 @@ Cr Cash                          (till's underlying account)
 ### Step 4 — Each Month: Payroll Computes
 
 ```
-payroll.computed.v1               (gross salary for the employee)
-payroll.deduction.applied.v1
+hr.payroll.computed.v1            (gross salary for the employee)
+hr.payroll.deduction.applied.v1
   payload:
     employee_ref, obligation_ref, instalment_amount, period
 ```
@@ -444,7 +444,7 @@ payroll.deduction.applied.v1
 ### Step 5 — Cash Subscribes Payroll Deduction
 
 ```
-Cash handler record_loan_repayment reacts to payroll.deduction.applied.v1.
+Cash handler record_loan_repayment reacts to hr.payroll.deduction.applied.v1.
   - Obligation primitive: settle portion (instalment_amount) — UI-08 bounds enforced
   - Emit cash.payment.disbursed.v1 representing the NET cash actually paid to employee
     (gross salary minus deduction; the deducted portion never physically left)
@@ -788,9 +788,9 @@ On full payment (outstanding = 0):
 Layby or advance frequently couples with Inventory reservations (CN-5-003 §9). Example: workshop accepts customer advance for a custom window; vertical creates Inventory reservation for the aluminium sheet; reservation is held while the customer pays in instalments; on full payment, reservation confirms (inventory deducts) AND advance Obligation settles in lockstep.
 
 The choreography:
-1. Customer commits → vertical emits `workshop.quote.accepted.v1` → Inventory reservation + customer Obligation (advance kind) created.
+1. Customer commits → vertical emits `<vertical>.quote.accepted.v1` (e.g., workshop's vertical-specific event per CTR-030) → Inventory reservation + customer Obligation (advance kind) created.
 2. Customer pays instalments → Cash records each → advance Obligation reduces; Inventory reservation untouched.
-3. Customer pays final instalment → outstanding = 0 → vertical emits `workshop.layby_release.v1` (or analogous) → Inventory reservation confirms (stock deducts) + Cash closes Obligation in lockstep.
+3. Customer pays final instalment → outstanding = 0 → vertical emits `<vertical>.layby_release.v1` (or analogous; per CTR-030 vertical contract) → Inventory reservation confirms (stock deducts) + Cash closes Obligation in lockstep.
 
 Both Obligation reduction (Cash side) and Inventory reservation→consumed (stock side) proceed together; UI-08 bounds + CN-5-003 §9 reservation lifecycle inherit.
 
@@ -915,7 +915,7 @@ rejection_reason:    "Tender currency does not match till currency"
 
 **Monthly — Payroll**
 - Payroll computes Asha's salary; deducts the TZS 50,000 loan instalment per schedule.
-- `payroll.deduction.applied.v1 {employee: Asha, obligation_ref: <loan>, amount: <instalment>}`.
+- `hr.payroll.deduction.applied.v1 {employee: Asha, obligation_ref: <loan>, amount: <instalment>}`.
 - Cash handler `record_loan_repayment`: Obligation reduces by instalment; emits `cash.payment.disbursed.v1` for net salary.
 - CN-5-001 auto-journals: Dr Salary Expense (gross); Cr Loan Receivable (instalment); Cr Cash (net); Cr Tax W/H + Pension W/H.
 - Repeat for N months until Obligation outstanding = 0.

@@ -124,8 +124,8 @@ subscribes_to:                              # per CN-4-005 §7, named events onl
   # Inventory
   - {event_type: inventory.adjustment.recorded.v1, version: 1, handler: post_inventory_adjustment, kind: command_emitting, scope_ref: tenant}
   # HR / Payroll
-  - {event_type: payroll.computed.v1,             version: 1, handler: post_payroll_accrual,     kind: command_emitting, scope_ref: tenant}
-  - {event_type: payroll.paid.v1,                 version: 1, handler: post_payroll_settlement,  kind: command_emitting, scope_ref: tenant}
+  - {event_type: hr.payroll.computed.v1,          version: 1, handler: post_payroll_accrual,     kind: command_emitting, scope_ref: tenant}
+  - {event_type: hr.payroll.paid.v1,              version: 1, handler: post_payroll_settlement,  kind: command_emitting, scope_ref: tenant}
   # FX (from Term 7 adapter or future FX engine — N1)
   - {event_type: <fx-adapter>.fx.rate.recorded.v1, version: 1, handler: post_fx_revaluation,     kind: command_emitting, scope_ref: tenant}
   # Promotion cost-share
@@ -154,14 +154,14 @@ The account mappings below are **illustrative**. Actual mappings live in the com
 | 7 | `procurement.invoice.paid.v1` | AP settlement | AP | Cash |
 | 8 | `procurement.grn.received.v1` (when invoice not yet) | GRN accrual | Inventory | GR/IR (Goods-Received-Not-Invoiced) |
 | 9 | `inventory.adjustment.recorded.v1` | Stock write-up / write-down | Inventory or Adjustment | Adjustment or Inventory |
-| 10 | `payroll.computed.v1` | Payroll accrual | Salary Expense | Salary Payable; Tax W/H; Pension W/H |
-| 11 | `payroll.paid.v1` | Payroll settlement | Salary Payable | Cash |
+| 10 | `hr.payroll.computed.v1` | Payroll accrual | Salary Expense | Salary Payable; Tax W/H; Pension W/H |
+| 11 | `hr.payroll.paid.v1` | Payroll settlement | Salary Payable | Cash |
 | 12 | `accounting.depreciation.run.request` (system:scheduler) → `accounting.depreciation.posted.v1` | Periodic depreciation | Depreciation Expense | Accumulated Depreciation |
 | 13 | `<fx-adapter>.fx.rate.recorded.v1` | FX revaluation (pack-defined frequency) | FX Loss or FX Asset | FX Gain or FX Liability |
 
 ### Inventory Transfer Between Sites — No Journal in v1
 
-`inventory.movement.transferred.v1` (between sites within the same legal entity) produces **no journal** in v1 — both sides of the transfer are the same Inventory account; only analytical tags change. Standards that require inter-branch P&L attribution can express this in the pack via `recognition_rules` later; CN-5-001 v1 does not subscribe to inventory transfers for journal purposes.
+`inventory.transfer.initiated.v1` and `inventory.transfer.received.v1` (between sites within the same legal entity; paired per CN-5-003 §12) produce **no journal** in v1 — both sides of the transfer are the same Inventory account; only analytical tags change. Standards that require inter-branch P&L attribution can express this in the pack via `recognition_rules` later; CN-5-001 v1 does not subscribe to inventory transfers for journal purposes.
 
 ### Adding New Auto-Journal Subscriptions
 
@@ -254,7 +254,7 @@ accounting:
               - {cr: "2100", basis: "amount_incl_tax"}}
     payroll:
       mapping:
-        - {event_type: "payroll.computed.v1",
+        - {event_type: "hr.payroll.computed.v1",
             triggers_journal: true,
             entries: [...]}
 
@@ -373,6 +373,8 @@ payload:
   reversal_entries:     [<symmetric reverse of original entries; Dr↔Cr>]
   reason_ref:           <free-form text + optional structured reason_code>
   business_date:        <current open period — UI-05>
+  posting_period_ref:   <current open period identifier — explicit anchor for forward-period
+                         correction of a closed-period event; per CN-5-103 N1>
 ```
 
 ### N4 — Two Distinct Envelope Links
@@ -489,13 +491,13 @@ Daily events flow through the auto-journal handlers:
 
 - **Every sale**: `checkout.settled.v1` → `post_sale_journal` → `accounting.journal.posted.v1` (Dr Cash/AR/Mobile Money receivable, Dr COGS, Cr Revenue, Cr Tax Payable 18% per TFRS-TZ pack, Cr Inventory). Per-site analytical tag on each line. Causation back to the checkout event.
 - **Supplier invoices**: `procurement.invoice.recorded.v1` → `post_purchase_journal` → Dr Inventory + Dr Input Tax + Cr AP. Causation chain to procurement event.
-- **Monthly payroll**: `payroll.computed.v1` → `post_payroll_accrual` → Dr Salary Expense + Cr Payable + Cr WHT + Cr Pension.
+- **Monthly payroll**: `hr.payroll.computed.v1` → `post_payroll_accrual` → Dr Salary Expense + Cr Payable + Cr WHT + Cr Pension.
 - **Monthly depreciation**: `system:scheduler` submits `accounting.depreciation.run.request` on the first business day of each month per pack frequency → `accounting.depreciation.posted.v1` for fixed assets per asset class defaults.
 - **Inter-site cash transfer**: `cash.transfer.between_sites.v1` → `post_inter_site_transfer` → Dr Cash (analytical tag: to-site) + Cr Cash (analytical tag: from-site). Single Cash account; site-level disaggregation via tags (A4).
 
 ### Monthly Close (e.g., October 31, 2026)
 
-Mzee Hassan (Mama Amina's bookkeeper) submits `accounting.period.close.request {period: 2026-10}`. CN-5-104 choreography fan-in waits for `cash.period.ready.v1`, `inventory.period.ready.v1`, `payroll.period.ready.v1`. When all signals received, CN-5-001 verifies UI-07 (trial balance balanced), then emits `accounting.period.closed.v1 {period: 2026-10, summary: {...}}`. UI-05 bus policy now rejects any further events with `effective_date ∈ 2026-10`.
+Mzee Hassan (Mama Amina's bookkeeper) submits `accounting.period.close.request {period: 2026-10}`. CN-5-104 choreography fan-in waits for `cash.period.ready.v1`, `inventory.period.ready.v1`, `hr.payroll.period.ready.v1`. When all signals received, CN-5-001 verifies UI-07 (trial balance balanced), then emits `accounting.period.closed.v1 {period: 2026-10, summary: {...}}`. UI-05 bus policy now rejects any further events with `effective_date ∈ 2026-10`.
 
 ### Correction in November
 

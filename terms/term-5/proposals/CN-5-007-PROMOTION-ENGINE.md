@@ -40,7 +40,7 @@ The engine spans full lifecycle: campaign definition → rule + voucher + loyalt
 
 | # | Law | Source / why |
 |---|-----|--------------|
-| **PR1** | **Promotion populates rules; Checkout applies them.** Promotion never settles tender; Checkout never invents discounts. Promotion writes line-level `discount_refs` (CN-4-021) and emits bill-level `promotion.applied.v1` events; Checkout reads and applies at settlement per K2 of CN-5-009 (Checkout recomputes from authoritative inputs). | D-001 Universal Checkout intent; CN-4-021 discount_refs design; CN-5-009 K2 (Checkout never trusts cached values blindly). Single-source-of-truth at settlement. |
+| **PR1** | **Promotion populates rules; Checkout applies them.** Promotion never settles tender; Checkout never invents discounts. Promotion writes line-level `discount_refs` (CN-4-021) and emits bill-level `promotion.rule.applied.v1` events; Checkout reads and applies at settlement per K2 of CN-5-009 (Checkout recomputes from authoritative inputs). | D-001 Universal Checkout intent; CN-4-021 discount_refs design; CN-5-009 K2 (Checkout never trusts cached values blindly). Single-source-of-truth at settlement. |
 | **PR2** | **Vouchers ARE Documents (CN-4-012).** A voucher is hash-verified, immutable, template-versioned, pack-frozen. Not a new primitive — composes the Document primitive. Verifiable years later by hash; transferable per pack rules. | Per CN-5-006 N3 doctrine — formal artefacts deserve Document treatment. Same pattern as Statements, Invoices, POs. |
 | **PR3** | **Loyalty balances ARE Obligations (CN-4-011, kind: `loyalty_credit`).** Not a new primitive — composes the Obligation primitive. Outstanding = current point balance; creditor = customer; debtor = tenant. Accrual increases outstanding; redemption reduces. UI-08 bounds. | Unifies with AR/AP/loans/delivery/advance/layby — all Obligations. CN-5-002 §G + CN-5-003 §13 + CN-5-005 §10 — same primitive everywhere. |
 | **PR4** | **Cost-share splits into 4 funding sources summing to `total_discount` (UI-10).** `bos_share + agent_share + supplier_share + tenant_share = total_discount`. The first three create `cost_share_receivable` Obligations (CN-4-011 kind extension); `tenant_share` is absorbed (revenue reduction or expense per pack PR6). Settlement via Cash Engine (CN-5-002) AR flow — no new payment rail. | UI-10 (CN-5-102); D-001 cost-share intent; unified Obligation primitive. |
@@ -150,7 +150,7 @@ emits:
   - promotion.cost_share.recorded.v1                    # CN-5-001 #13; UI-10 reconciliation; creates 3 cost_share_receivable Obligations
 
   # Application (read by Checkout)
-  - promotion.applied.v1                                # batched per sale; consolidated via N1 handler
+  - promotion.rule.applied.v1                                # batched per sale; consolidated via N1 handler
 
   # Manual override
   - promotion.manual_override.applied.v1                # CN-4-013 Decision Journal entry recorded
@@ -205,7 +205,7 @@ requires:
 | # | Kind | Definition | Where applied |
 |---|------|------------|---------------|
 | 1 | **line_discount** | Discount on a specific line (item × qty) — % or fixed | CN-4-021 `discount_refs` on the line; Checkout K2 recomputes |
-| 2 | **bill_discount** | Discount on bill total (e.g., "10% off > TZS 50k") | `promotion.applied.v1`; Checkout reads after line aggregation |
+| 2 | **bill_discount** | Discount on bill total (e.g., "10% off > TZS 50k") | `promotion.rule.applied.v1`; Checkout reads after line aggregation |
 | 3 | **bogo** | Buy-One-Get-One (free or discounted) | Line-level via rule on items; Promotion injects extra discount_ref |
 | 4 | **bundle** | Set of items priced together; **atomic — all components present or no discount** (Q10) | Line-level discount_refs across bundle's lines + bundle metadata; Checkout verifies all components present before applying |
 | 5 | **voucher** | Discrete redeemable Document (PR2); presented at checkout | Voucher redemption consumed; discount per voucher's encoded value |
@@ -612,7 +612,7 @@ When `checkout.refunded.v1` arrives, Promotion's `reverse_promotions_at_refund` 
 | Loyalty points accrued | Obligation outstanding reduces by accrued × refund_proportion; emit `promotion.loyalty.points.accrued.v1` compensating event |
 | Voucher redeemed | Emit `promotion.voucher.restoration.requested.v1`; pack resolves (N3) to restored / burned / partial_credit |
 | Cost-share recorded | Emit `promotion.cost_share.recorded.v1` compensating event with all 4 shares reversed (`compensates_event_id` to original); CN-5-001 #13 subscribes (kind: compensation) and reverses journals; the 3 `cost_share_receivable_*` Obligations reduce |
-| Promotion applied | Emit `promotion.applied.v1` compensating event referencing original |
+| Promotion applied | Emit `promotion.rule.applied.v1` compensating event referencing original |
 
 ### Partial Refund (Q7)
 
@@ -639,7 +639,7 @@ UI-02 symmetry: every engine that posted on original (Accounting cost-share jour
 | `promotion.loyalty.points.accrued.v1` | CN-5-006 Reporting | Loyalty program metrics |
 | `promotion.loyalty.points.redeemed.v1` | CN-5-002 (if redemption acts as tender per pack) + CN-5-006 | Cash tender path + analytics |
 | `promotion.outreach.sent.v1` | CN-5-006 Reporting | Outreach metrics, conversion analytics |
-| `promotion.applied.v1` | CN-5-006 Reporting | Promotion ROI analytics |
+| `promotion.rule.applied.v1` | CN-5-006 Reporting | Promotion ROI analytics |
 | `promotion.manual_override.applied.v1` | CN-4-013 Decision Journal + CN-5-006 | Override audit + reporting flag |
 
 ### Promotion Subscribes To
@@ -677,7 +677,7 @@ UI-02 symmetry: every engine that posted on original (Accounting cost-share jour
 | **Voucher redeemed twice** (race condition) | Bus rejects second redemption via Document terminal-fold guarantee (CN-4-011 + CN-4-012 — voucher state already redeemed) | First redemption wins; second customer informed |
 | **Loyalty redemption exceeds outstanding** (race condition or stale projection) | Bus rejects per UI-08 bound (`outstanding ≥ 0`) | Customer informed; partial redemption possible if amount > min_redemption |
 | **Cost-share recipient settlement fails** (BOS billing offset, agent insolvent) | Obligation outstanding remains; Cash settlement not received | Cost-share write-off via compensating Obligation event; pack rules govern (typically Term 1 governance for BOS share; agent contract for agent share) |
-| **Bundle component out of stock at checkout** | Bundle eligibility check fails at apply_promotions_at_settlement | Bundle not applied; constituent items revert to non-bundle line prices; emit `promotion.applied.v1` with `bundle_skipped: true` |
+| **Bundle component out of stock at checkout** | Bundle eligibility check fails at apply_promotions_at_settlement | Bundle not applied; constituent items revert to non-bundle line prices; emit `promotion.rule.applied.v1` with `bundle_skipped: true` |
 | **Manual override without elevated principal** | Bus rejects per CN-4-007 identity check | Cashier must escalate; manager submits with elevated identity |
 | **Channel adapter outcome never arrives** (Term 7 outage) | `promotion.outreach.requested.v1` remains in flight; no follow-up event | After timeout (pack-defined), Promotion emits `promotion.outreach.failed.v1` with reason `adapter_timeout`; retry per pack policy |
 | **Pack rotation mid-campaign** | Active campaign continues under pre-rotation pack version (D-009 freeze); new rules take effect for sales after rotation | No silent re-computation; campaign may be amended to align if tenant chooses |
@@ -839,7 +839,7 @@ Promotion's reverse_promotions_at_refund (kind: compensation) — atomic batch:
       cost_share_receivable_bos Obligation reduces by 150
     UI-10 holds at proportional level: 150 + 0 + 0 + 150 = 300 ✓
   - No voucher involved this sale; no restoration request
-  - promotion.applied.v1 compensating event referencing original
+  - promotion.rule.applied.v1 compensating event referencing original
 
 CN-5-001 #13 compensating journal: reverse the original entries proportionally
 ```

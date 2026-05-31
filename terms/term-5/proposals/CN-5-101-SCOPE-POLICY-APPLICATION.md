@@ -135,7 +135,7 @@ commands:
 emits:
   - cash.tender.received.v1             # payload includes site_id
   - cash.session.closed.v1              # payload includes site_id
-  - cash.position.snapshot.v1           # tenant-wide, no site_id needed
+  - cash.tender.received.v1             # site-emitted; tenant-wide query via aggregation, not separate snapshot event
 subscribes_to:
   - {event_type: checkout.settled.v1,    version: 1, handler: record_tender_receipt, kind: command_emitting, scope_ref: site}
   - {event_type: accounting.period.closed.v1, version: 1, handler: lock_sessions, kind: command_emitting, scope_ref: tenant}
@@ -166,8 +166,8 @@ Universal engines avoid platform-scope subscriptions by default. The canonical c
 
 | Layer | Operates at | Emits | Consumes |
 |-------|-------------|-------|----------|
-| **Reporting Engine (CN-5-006)** | `tenant` | `reporting.metrics.monthly.v1` per tenant (transaction counts, revenue, usage indicators) | Subscribes to engine events at `tenant` scope |
-| **Term 1 platform aggregator** | `platform` (CN-4-006 §2) | Platform-scope subscription to `reporting.metrics.monthly.v1` across tenants → aggregates for billing, governance | Operates under platform audit (CTR-016 governance) |
+| **Reporting Engine (CN-5-006)** | `tenant` | `reporting.metrics.published.v1` per tenant (transaction counts, revenue, usage indicators) | Subscribes to engine events at `tenant` scope |
+| **Term 1 platform aggregator** | `platform` (CN-4-006 §2) | Platform-scope subscription to `reporting.metrics.published.v1` across tenants → aggregates for billing, governance | Operates under platform audit (CTR-016 governance) |
 
 ### Why Not a Universal-Engine Platform Subscription
 
@@ -235,7 +235,7 @@ The handler runs once at tenant scope, emitting `cash.transfer.initiated.v1` and
 
 ### Platform Aggregation (Term 1, Not Term 5)
 
-At month end, Reporting emits `reporting.metrics.monthly.v1` for `mama-amina-duka` (tenant-scope). Term 1's billing aggregator subscribes at platform scope and rolls metrics for billing — but no Term 5 engine reads outside this tenant. The platform read is audited in both the platform trail and Mama Amina's tenant trail (CN-4-006 §2; CTR-016 governance).
+At month end, Reporting emits `reporting.metrics.published.v1` for `mama-amina-duka` (tenant-scope). Term 1's billing aggregator subscribes at platform scope and rolls metrics for billing — but no Term 5 engine reads outside this tenant. The platform read is audited in both the platform trail and Mama Amina's tenant trail (CN-4-006 §2; CTR-016 governance).
 
 ### A Doctrine Failure Caught at Dispatch
 
