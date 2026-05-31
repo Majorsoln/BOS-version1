@@ -43,6 +43,9 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-029 | 5 | 1 | — | Accounting-standard pack-section content + governance per jurisdiction (IFRS, TFRS-TZ, GAAP, …) | OPEN |
 | CTR-030 | 5 | 6 | — | Vertical event payloads carry data sufficient for Accounting journal mapping | OPEN |
 | CTR-031 | 5 | 7 | D-001 | Banking adapter contract — deposit handoff + statement reconciliation | OPEN |
+| CTR-036 | 5 | 4 | — | Confirm `kernel.*` namespace reservation as enforceable doctrine (G2 of CN-5-103); likely DC-042 addition to CN-4-019 living catalog | OPEN |
+| CTR-037 | 5 | 4 | — | Pack-emitted events namespace clarification — `pack.*` vs `kernel.pack.*`; ownership of Compliance DSL emissions (CN-4-015) | OPEN |
+| CTR-038 | 5 | 6 (future) | — | Pre-allocate vertical namespace ownership per CN-5-103 §16 (Q6 hybrid): `retail.*`, `restaurant.*`, `hotel.*`, `workshop.*`, `pharmacy.*`, `clinic.*` reserved for Term 6 verticals | OPEN |
 
 ---
 
@@ -407,6 +410,46 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** A Term 7 banking adapter pattern analogous to but distinct from CTR-006 payment adapters: Cash emits `cash.deposit.requested.v1 {till_id: main_safe, amount, currency, callback_correlation_id, bank_account_ref, business_date}`; banking adapter consumes, invokes bank API / cash-in-transit service; emits `<bank-adapter>.deposit.outcome.v1 {callback_correlation_id, outcome: confirmed | failed, external_ref: <bank txn id>, reason?}`; Cash subscribes and finalises via `cash.deposit.complete.request`. Also covers periodic provider statement events for mobile money wallet digital reconciliation (`<mm-adapter>.statement.received.v1`) which Cash uses to reconcile mobile money tills against provider truth.
 - **Why:** Banking has different semantics from payment-at-tender: deposit destination is an external bank account, settlement times differ, and statement reconciliation is required for both mobile money and (future) bank account tills. Overloading CTR-006 would conflate distinct contract surfaces.
 - **Proposed contract:** Distinct from CTR-006 (payment adapters at tender boundary). Banking adapter handles outbound deposits and inbound statement events. Same request/reply pattern via events + callback_correlation_id; same adapter-emits-outcome-event mechanism. Term 7 builds the adapter; Term 1 governs which banking providers are approved per jurisdiction.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-036 — Confirm `kernel.*` namespace reservation as enforceable doctrine
+- **From Term:** 5
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-5-103 (Universal Event Glossary) doctrine G2
+- **Boundary Object:** —
+- **What is needed:** CN-5-103 doctrine G2 declares: "`kernel.*` namespace is RESERVED for Kernel meta-events only (Term 4). Universal engines NEVER emit `kernel.*` events." This needs Term 4 ratification as enforceable doctrine, likely via a new DC in CN-4-019 living catalog: **DC-042** — for any event where `engine_id != 'kernel'`, the event-type prefix MUST NOT be `kernel.*`. Bus rejects at command time / event emission time; doctrine check at CI build.
+- **Why:** Engine isolation (Law 2). Without enforcement, an engine can silently emit `kernel.*`-prefixed events, breaking the boundary between Kernel meta-events (CN-4-002 / 004 / 013) and engine domain events. CN-5-001 N1 already caught one violation (`kernel.depreciation.*`, `kernel.fx.*`) at review time; mechanizing prevents recurrence.
+- **Proposed contract:** Term 4 adds **DC-042** to CN-4-019 living catalog (Static or Integration category, TBD). Updates §3 Type Count, §4 Law-mapping. Increment doc total from 41 (after CTR-025) to 42. Parallel to CTR-025 ramp-up pattern.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-037 — Pack-emitted events namespace clarification
+- **From Term:** 5
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-5-103 (Universal Event Glossary) Q8
+- **Boundary Object:** —
+- **What is needed:** Compliance DSL (CN-4-015) and Pack governance (CN-4-023 / D-009 freeze) imply some events emitted around pack lifecycle: pack registration, pack version-freeze, pack upgrade ready, pack effective. What is the namespace for these — `pack.*` (Term 4 owned)? `kernel.pack.*` (Kernel meta-event)? Term 4 confirms and CN-5-103 catalogues.
+- **Why:** CN-5-103 cannot publish a complete glossary while pack-event ownership is ambiguous. Term 6 verticals and Term 7 adapters will subscribe to pack-effective events for D-009 freeze; the namespace must be authoritative before Term 6 begins.
+- **Proposed contract:** Term 4 (via CN-4-015 author or kifupi re-activation per Concept Lead) confirms: (a) namespace root for pack-lifecycle events (likely `pack.*`, distinct from `kernel.*` reserved per G2); (b) producer principal (`system:compliance_dsl`?); (c) event list (registered / version_frozen / upgrade_ready / effective / superseded). CN-5-103 §17 then catalogues these.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-038 — Pre-allocate vertical namespace ownership (Term 6 reservation)
+- **From Term:** 5
+- **To Term(s):** 6 (future — Term 6 activates upon vertical concept-doc kickoff)
+- **Decision / Topic:** — / arose from CN-5-103 (Universal Event Glossary) Q6 hybrid resolution
+- **Boundary Object:** —
+- **What is needed:** Per CN-5-103 §16 Q6(c) hybrid: reserve event namespace prefixes for Term 6 verticals so universal-engine placeholders (`<vertical>.bill.ready.v1`, `<vertical>.ingredient.consumed.v1`, etc.) have a known resolution path when Term 6 begins. Concrete event names per vertical are authored by Term 6 each-vertical doc; only namespace ownership is locked now.
+- **Why:** Without reservation, Term 6 could (innocently) collide namespaces with future cross-cutting needs, OR universal engines could not predict where their `<vertical>.*` subscriptions will resolve. Locks the contract surface.
+- **Proposed contract:** CN-5-103 §16 publishes the namespace map (initial Term 6 candidates from Term 5 docs + Concept Lead anticipated verticals):
+  - `retail.*` — general retail (duka, supermarket, pharmacy stocked products)
+  - `restaurant.*` — food service (café, restaurant, fast-food)
+  - `hotel.*` — hospitality (lodge, hotel, guesthouse)
+  - `workshop.*` — artisan / repair / manufacturing (garage, karakana, tailoring)
+  - `pharmacy.*` — dispensing pharmacy (subset of retail or distinct?)
+  - `clinic.*` — health-care service delivery
+  Term 6 inherits ownership upon activation; may add/split (e.g., `pharmacy.*` consolidating into `retail.*` with attributes, or staying distinct) but cannot rename pre-allocated roots without CTR. Specific event names per vertical = each-vertical doc's responsibility.
 - **Status:** OPEN
 - **Resolution:** —
 
