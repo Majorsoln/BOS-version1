@@ -207,6 +207,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Proposed contract:** Term 1 owns AI cost policy + model registry; Term 4 exposes the model plug-in point; Term 7 confirms advisory-only across all surfaces.
 - **Status:** OPEN
 - **Resolution:** Foundation side delivered (CN-4-022): the model plug-in point ({model_id, model_version, model_config_ref}, swappable without framework change). Awaiting Term 1 to define cost governance, model approval, and the model registry.
+- **Expansion note (CN-5-010):** AI Mode cost governance gains **per-advisor structure** from CN-5-010: (a) per-advisor cost ceilings (pack declares `pack.advisor.<id>.cost_ceiling`); (b) per-tenant model-tier elections within pack-declared `tier_range: [min, max]` per advisor; (c) **Phase 1 activation thresholds** (pack hooks `pack.advisor.procurement.min_supplier_count` default 5, `pack.advisor.procurement.min_invoice_history_per_supplier` default 3 over `min_invoice_history_window_days` default 90; `pack.advisor.promotion.min_campaign_count_settled` default 2 + `pack.advisor.promotion.min_cost_share_cycles_completed` default 1; `pack.advisor.checkout.real_time_mechanism_ratified` default false — flips on Architect ratification); (d) **confidence tier cutoffs** (`pack.advisor.confidence_tier_cutoffs` default `{low: 0.5, medium: 0.8}` — N2 derived tier); (e) **checkout-advisor latency budget** (`pack.advisor.checkout.latency_budget_ms` default 2000ms — N4 drop threshold). Term 1 governance covers per-jurisdiction approval of these settings alongside model approval.
 
 ### CTR-015 — Adopt one AI Mode dashboard pattern
 - **From Term:** 7
@@ -218,6 +219,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **Proposed contract:** Term 7 publishes the AI Mode pattern (prompt + proactive advice, role-scoped, journaled, explainable); Terms 1/2/3 surface it per their dashboards.
 - **Status:** OPEN
 - **Resolution:** —
+- **Expansion note (CN-5-010):** AI Mode dashboard pattern gains an **advisor-suggestion-feed primitive** — a per-role inbox/feed component that surfaces `kernel.advisor.suggestion.recorded.v1` events (filtered by audience matching the viewer's role per CN-5-010 A1 audience contract). Required component fields per suggestion row: title, body, confidence score + derived tier (per N2), evidence drill-down (links to `evidence_refs[]` resolving via projection navigation), action buttons (Act / Dismiss / Defer). Acting submits `recommended_command_draft` as real command via normal bus path (CN-5-010 N1 — never autonomous); dismissal/deferral writes back as `kernel.advisor.decision.recorded.v1`. Pairs with CTR-039 (Term 3 finalises surface design per role). Pattern is one across platform/agent/tenant dashboards — same primitive, different audience scopes.
 
 ### CTR-016 — Platform scope as a first-class parallel scope
 - **From Term:** 4
