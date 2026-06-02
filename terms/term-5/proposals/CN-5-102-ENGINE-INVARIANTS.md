@@ -16,7 +16,7 @@
 CN-5-102 is the **cross-engine doctrine of state** for universal engines. It states the truths that must hold about state once events have been emitted by two or more universal engines working in choreography. These invariants are the cross-engine analogue of CN-4-019's Kernel doctrine checks: they are testable, mechanizable, and authoritative.
 
 This doc defines:
-- A **catalog of cross-engine invariants** (initial: UI-01 … UI-10) (§3).
+- A **catalog of cross-engine invariants** (initial: UI-01 … UI-10; UI-11 added by CN-5-105 amendment per Charter §11 living catalog) (§3).
 - The **per-invariant format** every entry uses (§4).
 - An **enforcement strategy** that distributes each invariant across runtime, CI-integration, and CI-schema layers (§5).
 - A **violation-handling model** — hard-fail, anomaly alert, mode escalation (§6).
@@ -188,6 +188,20 @@ Ten invariants are recorded below. Each follows the per-invariant format (§4). 
 | **DC mapping** | Phase 1 — pending CN-5-007 Promotion + Term 1 billing wiring (CTR-016) |
 | **Violation** | Post-hoc anomaly alert; rebuild affected projections; investigation |
 | **Reasoning** | A promotion whose declared cost split does not match its realised cash and accounting effects is one of three things: a bug (handler emitted wrong amounts), a misconfiguration (cost-share definition diverged from realisation), or fraud (a party adjusted figures after the fact). All three need detection; none can be silently absorbed. The invariant makes the three-way reconciliation a first-class system property. |
+
+---
+
+### UI-11 — Closed Tax-Period Inviolability (CN-5-105 amendment)
+
+| Field | Value |
+|-------|-------|
+| **Statement** | Once `accounting.tax_period.closed.v1` is emitted for a tax period in a tenant + jurisdiction, the bus rejects any subsequent command whose effect would emit a tax-relevant event with `tax_period_ref` equal to the closed tax period for that jurisdiction. Corrections post forward via `posting_tax_period_ref` + `references_closed_period` (parallel PC8 forward-correction pattern). **Distinct from UI-05** (financial-period inviolability) because tax periods often differ from financial periods (e.g., monthly VAT vs monthly financial close; annual PAYE certificate; quarterly excise). |
+| **Scope** | tenant + jurisdiction (composite key) |
+| **Spans engines** | Accounting (tax_period state owner) + every engine emitting tax-relevant events: Checkout, Procurement, HR, Cash, Promotion |
+| **Enforcement** | Runtime (bus engine-policy on every tax-relevant event with effective tax_period_ref) + CI integration test (replay; assert no closed-period emissions) |
+| **DC mapping** | Phase 1 — pending CN-5-105 ratification + CN-5-001 tax-period event amendment |
+| **Violation** | Hard fail at command (bus rejects with `rejected_by_policy: UI-11.closed_tax_period_inviolable`) |
+| **Reasoning** | Tax periods are filing units with regulatory significance independent of financial close. A closed VAT return for October cannot have late events landing in October post-filing — that would invalidate the submitted return. The doctrine: closed tax period truth is fixed forever; corrections move forward with explicit causation back (mirrors PC8 / UI-05 + financial close, but on the tax dimension). Added by CN-5-105 (Tax-Aware Engines) per Charter §11 living-catalog. |
 
 ---
 

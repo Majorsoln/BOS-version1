@@ -17,7 +17,7 @@
 
 ## 1. Purpose & Boundary
 
-CN-5-010 **wires concrete Advisors** onto the CN-4-022 Foundation Advisor Framework, completing the Term 5 runtime-AI scope (D-002A). Eight advisors are catalogued — one per universal engine plus a cross-engine BI advisor. Each advisor is defined by the CN-4-022 3-tuple `{audience, data_scope, model}` and routes its suggestions through CN-4-013 Decision Journal events. Law 3 (advisory only) is structural: advisors never emit business events; they propose, and humans act.
+CN-5-010 **wires concrete Advisors** onto the CN-4-022 Foundation Advisor Framework, completing the Term 5 runtime-AI scope (D-002A). Nine advisors are catalogued — one per universal engine plus a cross-engine BI advisor plus a cross-engine tax-advisor (added by CN-5-105 amendment). Each advisor is defined by the CN-4-022 3-tuple `{audience, data_scope, model}` and routes its suggestions through CN-4-013 Decision Journal events. Law 3 (advisory only) is structural: advisors never emit business events; they propose, and humans act.
 
 This doc finalises the runtime-AI layer of Term 5. After it, every engine has a concrete advisor wired; suggestions land in the Decision Journal; humans act through normal command-bus paths; the audit chain (UI-01) connects original observation → suggestion → human decision → command → resulting events.
 
@@ -62,9 +62,9 @@ This doc finalises the runtime-AI layer of Term 5. After it, every engine has a 
 
 ---
 
-## 3. Advisor Catalogue — 8 Advisors with Phase Markers
+## 3. Advisor Catalogue — 9 Advisors with Phase Markers
 
-Eight advisors total. Phase 0 = immediately activatable at v1 ratification. Phase 1 = activatable only when pack-defined thresholds (N3) are met. All 8 are present in the v1 manifest; activation gates are explicit.
+Nine advisors total (8 in v1 baseline + tax-advisor added by CN-5-105 amendment). Phase 0 = immediately activatable at v1 ratification (5). Phase 1 = activatable only when pack-defined thresholds (N3) are met (4 — procurement, promotion, checkout, tax). All 9 are present in the v1 manifest; activation gates are explicit.
 
 ### Phase 0 — Immediately Activatable (5)
 
@@ -76,7 +76,7 @@ Eight advisors total. Phase 0 = immediately activatable at v1 ratification. Phas
 | `hr-advisor` | manager, hr_officer | HR (CN-5-005) — leave balances, payroll history, employee loans, attendance, statutory compliance | Scheduled (monthly pre-payroll + quarterly leave review) | low |
 | `accounting-advisor` | accountant, bookkeeper | Accounting (CN-5-001) — trial balance, period state, account ageing, journal-flow patterns | Scheduled (pre-period-close + post-close audit) + on-demand | medium |
 
-### Phase 1 — Activatable When Pack-Defined Thresholds Met (3)
+### Phase 1 — Activatable When Pack-Defined Thresholds Met (4)
 
 Each Phase 1 advisor has explicit pack thresholds (N3). Activation request is **rejected** at command time if thresholds not met:
 
@@ -91,6 +91,13 @@ pack.advisor.promotion:
   min_cost_share_cycles_completed:       1          # ≥1 cost-share settlement cycle complete
 pack.advisor.checkout:
   real_time_mechanism_ratified:          false      # Architect-phase confirmation required
+pack.advisor.tax:                                    # added by CN-5-105 amendment per §4.9
+  min_tax_periods_with_activity:         2          # ≥2 closed tax periods of activity
+  min_tax_returns_filed:                 1          # ≥1 prior tax return filed
+  cost_ceiling:                           <pack-defined>
+  schedule_default:                       pre_tax_period_close + post_filing_review
+  tier_range:                             [medium, high]
+  default_tier:                           medium
 ```
 
 | ID | Audience | Primary data scope | Trigger | Phase 1 condition |
@@ -98,6 +105,7 @@ pack.advisor.checkout:
 | `procurement-advisor` | procurement_officer, manager | Procurement (CN-5-004) — supplier performance, 3-way-match flags, payment timing for discounts | Scheduled + event-triggered (post-grn, post-invoice) | Pack thresholds (suppliers, history) |
 | `promotion-advisor` | marketing, manager | Promotion (CN-5-007) — campaign ROI, cost-share collection, loyalty engagement | Scheduled (post-campaign) | Pack thresholds (settled campaigns, cost-share cycles) |
 | `checkout-advisor` | cashier (real-time UI) | Checkout (CN-5-009) — tender mix, refund frequency, customer anomalies | **Real-time post-settlement** (A6 / N4 latency budget) | Real-time mechanism Architect-ratified |
+| `tax-advisor` | accountant, tax_officer, owner | Accounting tax-period state + Reporting tax-return summary + Cash tax-authority Obligations + Procurement input-VAT recoverable + HR statutory deductions | Scheduled (pre-tax-period-close + post-filing review) + event-triggered (post-tax-close + post-assessment) | Pack thresholds (≥2 closed tax periods with activity + ≥1 prior return filed) |
 
 ### Activation Gate Behaviour (N3)
 
@@ -421,6 +429,55 @@ phase:                 1
 ```
 
 **Critical N4 behaviour:** if the advisor's evaluation takes longer than `latency_budget_ms` after the settlement event, the suggestion is **dropped** and recorded as `kernel.advisor.suggestion.dropped.v1`. Settlement is unaffected; cashier sees no suggestion for this transaction. See §12.
+
+### 4.9 — `tax-advisor` (Phase 1; CN-5-105 amendment)
+
+```yaml
+advisor_id:           tax-advisor
+advisor_version:      v1
+audience:             [accountant, tax_officer, owner]
+data_scope:
+  primary_projections:
+    - accounting.tax_period_state
+    - reporting.tax_return_summary
+    - cash.tax_authority_obligations
+    - procurement.input_vat_recoverable
+    - hr.statutory_deductions_summary
+  documents:           [tax_return_statements (current + historical)]
+  tenant_scope:        tenant
+  includes_decision_journal: true                  # N5 opt-in — review past audit findings + filing history
+trigger:
+  kind:                scheduled + event_subscription
+  schedule_ref:        pack.advisor.tax.schedule_default
+                        (default: pre_tax_period_close + post_filing_review)
+  subscribed_events:   [accounting.tax_period.closed.v1, accounting.tax.assessed.v1]
+suggestion_shape:
+  template_ref:        pack.advisor.tax.suggestion_template
+  required_fields:     [evidence_refs, confidence_score, confidence_tier, suggestion_text, recommended_command_draft?]
+audience_routing:
+  ui:                  Term 3 tax dashboard (CTR-039)
+  channels:            [email tax_filing_reminders, sms compliance_alerts] (opt-in; CTR-040 + CTR-021)
+activation:
+  pack_default:        recommended
+  tenant_opt_in:       required
+  phase_1_thresholds:
+    min_tax_periods_with_activity:    pack.advisor.tax.min_tax_periods_with_activity (2)
+    min_tax_returns_filed:            pack.advisor.tax.min_tax_returns_filed (1)
+  cost_ceiling_ref:    pack.advisor.tax.cost_ceiling
+model:
+  tier_range:          [medium, high]                # tax is regulatory — higher confidence requirement
+  default_tier:        medium
+phase:                 1
+```
+
+**Sample suggestions (note wording precision per N8 of CN-5-105 — boundary-clean):**
+
+- "Suggested: VAT return for October due 2026-11-20 (per pack.tax_calendar). Net payable TZS 145,000. Click to download VAT Return Statement Document for filing." (NOT "Filing now..." — BOS does not file; accountant downloads + files)
+- "Anomaly: Input VAT claimed September TZS 220k vs 12-month avg TZS 95k. Items contributing: [item_refs]. Suggested: review entries before period close."
+- "Reminder: Annual PAYE certificate due 2027-01-31. Employees with deduction mismatches: [employee_refs]. Suggested: review and resolve before filing."
+- "Tenant turnover at 35% of VAT registration threshold (per tenant_tax_profile.vat_threshold_status). No action needed; will pre-warn at 80%."
+
+**Critical N8 doctrine for tax-advisor:** suggestions describe what the user/accountant should DO with BOS-provided artefacts (download, review, file outside BOS); they NEVER suggest BOS filing or acting as agent. Per Charter §1.3 + CN-5-105 §1 boundary table.
 
 ---
 
