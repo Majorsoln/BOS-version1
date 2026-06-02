@@ -107,6 +107,8 @@ emits:
   - accounting.journal.reversed.v1          # compensation event (compensates_event_id non-null)
   - accounting.depreciation.posted.v1       # journal kind = depreciation (subset of journal.posted)
   - accounting.period.opened.v1
+  - accounting.period.close.initiated.v1    # close.request accepted; freeze window active (per CN-5-104 PC7)
+  - accounting.period.close.rejected.v1     # close.request denied (missing signals OR UI-07 fail) (per CN-5-104 §H)
   - accounting.period.closed.v1             # consumed by UI-05 bus policy across engines
 
 subscribes_to:                              # per CN-4-005 §7, named events only — manifest grows by addition
@@ -350,7 +352,7 @@ This is a bus policy that **every effective-date-bearing engine** inherits — n
 
 ### Close Initiation
 
-`accounting.period.close.request` is the entry point. CN-5-001 handles the basics: validate that the period is currently `open`; transition to `closing`; emit a "close started" marker; await the multi-engine choreography (CN-5-104) to complete; then emit `accounting.period.closed.v1`. The choreography itself — which engines must signal ready, how partial closes are handled, what blocks a close — is CN-5-104's concern.
+`accounting.period.close.request` is the entry point. CN-5-001 handles the basics: validate that the period is currently `open`; verify required engine signals received (per CN-5-104 PC4 + pack `period_close.required_signals`); emit `accounting.period.close.initiated.v1` (activates freeze window per PC7); verify UI-07 trial balance balanced; emit `accounting.period.closed.v1` on success OR `accounting.period.close.rejected.v1` on failure. The full multi-engine choreography (which engines must signal ready, freeze-window semantics, Statement Document issuance, post-close advisor hooks) lives in CN-5-104.
 
 ### No Re-Open
 
