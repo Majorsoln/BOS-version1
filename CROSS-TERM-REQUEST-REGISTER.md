@@ -46,6 +46,9 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-036 | 5 | 4 | — | Confirm `kernel.*` namespace reservation as enforceable doctrine (G2 of CN-5-103); likely DC-042 addition to CN-4-019 living catalog | OPEN |
 | CTR-037 | 5 | 4 | — | Pack-emitted events namespace clarification — `pack.*` vs `kernel.pack.*`; ownership of Compliance DSL emissions (CN-4-015) | OPEN |
 | CTR-038 | 5 | 6 (future) | — | Pre-allocate vertical namespace ownership per CN-5-103 §16 (Q6 hybrid): `retail.*`, `restaurant.*`, `hotel.*`, `workshop.*`, `pharmacy.*`, `clinic.*` reserved for Term 6 verticals | OPEN |
+| CTR-039 | 5 | 3 | — | UI surface for advisor suggestions — feed/inbox per role, act/dismiss/defer buttons, evidence drill-down, writes back as `kernel.advisor.decision.recorded.v1` | OPEN |
+| CTR-040 | 5 | 7 | D-008 | Channel routing for advisor digest/alerts (SMS/WhatsApp/email per pack), consent-gated per CTR-021 + advisor-specific Consent purpose extension | OPEN |
+| CTR-041 | 5 | 4 | — | `advisor_id` registry mechanism parallel CN-4-020 engine registry — per-tenant advisor activation requires registry of valid advisor_ids | OPEN |
 
 ---
 
@@ -450,6 +453,39 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
   - `pharmacy.*` — dispensing pharmacy (subset of retail or distinct?)
   - `clinic.*` — health-care service delivery
   Term 6 inherits ownership upon activation; may add/split (e.g., `pharmacy.*` consolidating into `retail.*` with attributes, or staying distinct) but cannot rename pre-allocated roots without CTR. Specific event names per vertical = each-vertical doc's responsibility.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-039 — UI surface for advisor suggestions
+- **From Term:** 5
+- **To Term(s):** 3
+- **Decision / Topic:** Law 3 (AI advisory only) / arose from CN-5-010 (AI Advisors Wiring)
+- **Boundary Object:** —
+- **What is needed:** Term 3 designs the tenant-facing UI surface where advisor suggestions land. Per-role inbox/feed (manager, accountant, cashier, HR officer, etc.) honouring `audience` field of each suggestion event. Each suggestion row carries: title, body text, confidence score + tier, evidence drill-down (links to projections/Documents/events that support the claim), and action buttons (Act / Dismiss / Defer). Acting submits the `recommended_command_draft` as a real command via the bus (NOT auto-act per CN-5-010 N1 — human-mediated submission); dismissal/deferral writes back as `kernel.advisor.decision.recorded.v1` (CN-4-013 event) so the audit chain remains complete.
+- **Why:** Without a defined UI surface, advisor suggestions live as Foundation events with no consumer — Law 3 audit chain breaks at the "human decides" step. Term 3 (Tenant Experience) owns surface design; Term 5 (CN-5-010) provides the suggestion contract.
+- **Proposed contract:** Term 3 publishes UI patterns for: (a) per-role suggestion inbox/feed; (b) suggestion-row component (title, body, evidence, action buttons, confidence display); (c) evidence drill-down navigation; (d) decision capture (writes back via CN-4-013 events); (e) channel routing toggles per tenant (when paired with CTR-040). CN-5-010 §5 + §8 reference; Term 3 finalises surface design at Term 3 kickoff.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-040 — Channel routing for advisor digest/alerts
+- **From Term:** 5
+- **To Term(s):** 7
+- **Decision / Topic:** D-008 / arose from CN-5-010 (AI Advisors Wiring)
+- **Boundary Object:** BO-7
+- **What is needed:** Some advisor suggestions warrant out-of-band delivery (SMS/WhatsApp/email digest of "today's 3 alerts") beyond UI feed — particularly for tenants whose managers don't sit at the dashboard daily. Channel routing must respect Consent (Foundation primitive per CN-4-011) — pairs with CTR-021's existing channel-consent gate but with a **distinct advisor-suggestion purpose** (a tenant may consent to promotion-outreach but not advisor-digest, or vice versa). Pack declares which advisors are channel-eligible; tenant opts-in per channel per advisor.
+- **Why:** Real value of advisors degrades to zero if manager doesn't see suggestions. Channel delivery extends reach. But consent semantics matter: advisor-digest is operational/internal, distinct from promotion outreach in purpose and audience expectations.
+- **Proposed contract:** Term 7 channel adapters (CTR-019/020/021 lineage) accept new Consent purpose `advisor_digest` (per-channel per advisor per tenant). Suggestion emitter (CN-5-010) optionally emits `kernel.advisor.suggestion.routed.v1` (or similar — Foundation namespace pending Term 4 confirmation) for digest delivery. Term 7 adapter sends per consent; bus hard-blocks (PR5 pattern from CN-5-007) if consent absent.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-041 — advisor_id registry mechanism (parallel engine registry CN-4-020)
+- **From Term:** 5
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-5-010 (AI Advisors Wiring) — A1/A7 doctrine
+- **Boundary Object:** —
+- **What is needed:** Per-tenant advisor activation per CN-5-010 A7 requires the bus to validate `advisor_id` against an authoritative registry (parallel CN-4-020 engine registry mechanism). Registry includes: advisor_id, current advisor_version, model_tier_range, pack_dependency_refs, audience eligibility, data_scope contract. Activation = tenant-property-event recording "this tenant has advisor X version Y enabled at tier Z" — likely Term 4 / Term 1 boundary (mechanism in Foundation; tenant-specific opt-in by Term 1 onboarding governance).
+- **Why:** Without a registry, advisor_ids would be free-form strings — bus cannot validate, tenant cannot audit "which advisors am I running?", and per-advisor cost ceilings (CTR-014) lose enforcement anchor. The registry is the activation surface for cost governance + audit + cross-Term coordination.
+- **Proposed contract:** Term 4 (re-activated kifupi per Concept Lead authorisation, similar pattern to CN-4-005 amendment + CTR-025 DC additions) extends CN-4-020 (Extension Points) with `advisor_registry` section — likely additive amendment or new CN-4-NN doc. Registry schema + activation event contract published; per-tenant activation governance handled by Term 1 (parallel to engine tenant-availability per CTR-022). CN-5-010 §7 references upon resolution.
 - **Status:** OPEN
 - **Resolution:** —
 
