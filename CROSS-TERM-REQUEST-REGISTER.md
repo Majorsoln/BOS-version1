@@ -49,6 +49,7 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-039 | 5 | 3 | — | UI surface for advisor suggestions — feed/inbox per role, act/dismiss/defer buttons, evidence drill-down, writes back as `kernel.advisor.decision.recorded.v1` | OPEN |
 | CTR-040 | 5 | 7 | D-008 | Channel routing for advisor digest/alerts (SMS/WhatsApp/email per pack), consent-gated per CTR-021 + advisor-specific Consent purpose extension | OPEN |
 | CTR-041 | 5 | 4 | — | `advisor_id` registry mechanism parallel CN-4-020 engine registry — per-tenant advisor activation requires registry of valid advisor_ids | OPEN |
+| CTR-042 | 5 | 1 | — | Period calendar governance — pack-driven `period_calendar` (gregorian/fiscal/lunar variants per jurisdiction); close approval gates per jurisdiction (chartered-accountant sign-off requirements) | OPEN |
 
 ---
 
@@ -488,6 +489,17 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Per-tenant advisor activation per CN-5-010 A7 requires the bus to validate `advisor_id` against an authoritative registry (parallel CN-4-020 engine registry mechanism). Registry includes: advisor_id, current advisor_version, model_tier_range, pack_dependency_refs, audience eligibility, data_scope contract. Activation = tenant-property-event recording "this tenant has advisor X version Y enabled at tier Z" — likely Term 4 / Term 1 boundary (mechanism in Foundation; tenant-specific opt-in by Term 1 onboarding governance).
 - **Why:** Without a registry, advisor_ids would be free-form strings — bus cannot validate, tenant cannot audit "which advisors am I running?", and per-advisor cost ceilings (CTR-014) lose enforcement anchor. The registry is the activation surface for cost governance + audit + cross-Term coordination.
 - **Proposed contract:** Term 4 (re-activated kifupi per Concept Lead authorisation, similar pattern to CN-4-005 amendment + CTR-025 DC additions) extends CN-4-020 (Extension Points) with `advisor_registry` section — likely additive amendment or new CN-4-NN doc. Registry schema + activation event contract published; per-tenant activation governance handled by Term 1 (parallel to engine tenant-availability per CTR-022). CN-5-010 §7 references upon resolution.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-042 — Period calendar governance + per-jurisdiction close approval gates
+- **From Term:** 5
+- **To Term(s):** 1
+- **Decision / Topic:** — / arose from CN-5-104 (Period-Close Choreography) doctrine PC2
+- **Boundary Object:** —
+- **What is needed:** CN-5-104 PC2 declares period definition as a tenant-property via pack `period_calendar`. Term 1 owns the pack content authorship for: (a) **period calendar variants** per jurisdiction (gregorian / fiscal / lunar / hijri / custom — TFRS-TZ uses gregorian-aligned monthly; some jurisdictions use fiscal year offset; Ethiopia uses 13-month calendar); (b) **period cutoff days** within each calendar (default last day of month; some packs use last business day; some packs allow tenant election within range); (c) **close approval gates per jurisdiction** (some require dual-approval owner+accountant; some require chartered-accountant sign-off for monthly close; year-end may require external auditor confirmation in some jurisdictions); (d) **freeze window expiry default per pack** (CN-5-104 v1 default 24h; pack may override per operational reality).
+- **Why:** Period calendar is jurisdiction-law-specific (fiscal year offset is statutory in some jurisdictions); close approval gates carry legal weight (signed-off Statements are evidentiary documents); freeze window expiry interacts with tenant operational rhythm. Term 1 governs pack content lifecycle (chartered-accountant review pipeline per CTR-029); CN-5-104 schema declares the slots, Term 1 fills content per jurisdiction.
+- **Proposed contract:** CTR-029 (accounting-standard pack-section content) is **extended** with `period_close:` subsection per CN-5-104 §C `period_close.required_signals` + period calendar variants + cutoff days + close approval thresholds + freeze window expiry overrides. Term 1 governs per-jurisdiction approval as part of the chartered-accountant review pipeline (parallel to CTR-029 accounting-standard content). Tenant↔jurisdiction binding (CTR-027) determines which calendar + approval gates apply.
 - **Status:** OPEN
 - **Resolution:** —
 
