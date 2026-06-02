@@ -110,6 +110,11 @@ emits:
   - accounting.period.close.initiated.v1    # close.request accepted; freeze window active (per CN-5-104 PC7)
   - accounting.period.close.rejected.v1     # close.request denied (missing signals OR UI-07 fail) (per CN-5-104 §H)
   - accounting.period.closed.v1             # consumed by UI-05 bus policy across engines
+  - accounting.tax_period.opened.v1         # tax-period state (parallel financial period; per CN-5-105 §E)
+  - accounting.tax_period.close.initiated.v1  # tax close.request accepted; freeze-analog active
+  - accounting.tax_period.close.rejected.v1   # tax close denied (computation gate per CN-5-105 Q11)
+  - accounting.tax_period.closed.v1         # consumed by UI-11 bus policy (CN-5-102 amendment)
+  - accounting.tax.assessed.v1              # backdated tax authority assessment (per CN-5-105 Q13; references_closed_period)
 
 subscribes_to:                              # per CN-4-005 §7, named events only — manifest grows by addition
   # Revenue
@@ -357,6 +362,10 @@ This is a bus policy that **every effective-date-bearing engine** inherits — n
 ### No Re-Open
 
 There is no `accounting.period.reopen.request`. Once `accounting.period.closed.v1` is emitted, that period is closed forever. Any correction post-dates to the current open period with causation back to the closed-period event (A5). This is the operational meaning of D-009 freeze at the period boundary.
+
+### Tax-Period Close (Parallel to Financial Close)
+
+Tax periods may differ from financial periods (e.g., monthly VAT vs monthly financial close; annual PAYE certificate). CN-5-001 emits five tax-period events (`opened` / `close.initiated` / `close.rejected` / `closed` / `tax.assessed`) supporting the tax-period choreography defined in CN-5-105 §E — a separate six-phase mechanism parallel to financial period close. The closed tax period is inviolable per UI-11 (CN-5-102 amendment); corrections post forward via `posting_tax_period_ref` + `references_closed_period` (parallel PC8 forward-correction). See CN-5-105 §§9, 13 for full mechanism.
 
 ---
 
