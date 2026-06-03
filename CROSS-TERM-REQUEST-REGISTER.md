@@ -53,6 +53,8 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 | CTR-043 | 5 | 1 | — | Tax pack content governance — rates per jurisdiction, exemption rules, item-category recoverability, OECD reverse-charge defaults, return template formats, tax_calendar (return due dates), tenant_tax_profile defaults per jurisdiction (vat threshold, formal-employee defaults, informal-sector handling per N7) | OPEN |
 | CTR-044 | 6 | 4 | — | `engine_kind: vertical` manifest flag — additive CN-4-005 amendment (parallel CTR-023 per-operation scope_ref pattern); discriminates vertical engines from universal engines for governance + onboarding | OPEN |
 | CTR-045 | 6 | 1 | — | Vertical onboarding governance — pre-approval gate for vertical activation per tenant; combo/catalog implications (parallel CTR-022 for universal engines); how a vertical reaches tenant availability after CN-4-020 registration | OPEN |
+| CTR-046 | 6 | 4 | — | Mechanizable anti-patterns as DC checks per CN-6-101 §10 — initial set: "no vertical engine subscribes to another vertical's namespace" (VE2+BD7); "no vertical operates platform-scope" (BD3+CN-5-101); "≥2 vertical subscriptions before Universal-engine introduction" (BD8 partial) | OPEN |
+| CTR-047 | 6 | 4 | — | `data_sensitivity_tier` primitive extension (per CN-6-101 §12.3 VI-05 deferral) — Party primitive extension OR new primitive; per-vertical encryption-at-rest requirements, retention rules, access-audit gates | OPEN |
 
 ---
 
@@ -543,6 +545,28 @@ This register tracks every Cross-Term Request. Below the summary table, each CTR
 - **What is needed:** Per CN-4-020, engines register technically (mechanism); per CTR-022, Term 1 governs tenant-facing availability (catalog + approval gates) for universal engines. **Verticals need a parallel but distinct governance mechanism** because: (a) verticals are tenant-business-domain-specific (a hotel tenant ≠ a workshop tenant); (b) vertical activation may require chartered review (does this tenant truly operate a hotel? — Brief §10.1 hint); (c) combos/bundles per tenant subscription tier are vertical-aware (basic tier = retail only; growth tier = retail + restaurant; etc.); (d) vertical deactivation has different semantics than universal (closing the hotel business but keeping restaurant — what happens to in-flight reservations? Brief §8.5 / §10.2). Term 1 owns the vertical catalog, vertical activation lifecycle (pending review → approved → active → deactivated → archived), and per-tenant vertical combination rules.
 - **Why:** Verticals are how tenants experience BOS — a wrong vertical assignment is a real harm (a duka assigned a hotel vertical breaks Mama Amina's experience). Tenant-side activation requires Term 1 governance distinct from Foundation's technical registration. Without this, verticals cannot reach tenants safely.
 - **Proposed contract:** Term 1 (when activated) extends CTR-022's tenant-availability governance with vertical-specific lifecycle: (a) **vertical catalog** per subscription tier (basic / growth / enterprise); (b) **per-tenant vertical activation** with optional human approval (regional agent confirms tenant business type per D-003 Charter Law 6); (c) **vertical combo rules** (some combos may be disallowed per pack — e.g., regulated verticals like clinic require specific licensure); (d) **vertical deactivation lifecycle** (in-flight Workflow handling, historical event retention, tenant data export per Charter §1.2); (e) **vertical retirement** (when BOS deprecates a vertical version) — migration path for tenants. CN-6-100 §10 declares the slots; Term 1 fills the governance.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-046 — Mechanizable anti-patterns as CN-4-019 doctrine checks
+- **From Term:** 6
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-6-101 (Vertical Boundary Doctrine) §10 Anti-Patterns Catalog + Q6 ruling
+- **Boundary Object:** —
+- **What is needed:** CN-6-101 §10 enumerates anti-patterns (premature universalization, bridge-engine creation, vertical-vertical direct calls, platform-scope vertical operation, etc.). Some are mechanizable as CI doctrine checks; others remain judgmental for review at CN-4-020 doctrine gate. Term 4 extends CN-4-019 living catalog with the mechanizable subset. Initial proposed checks: **DC-NN-a** "no vertical engine subscribes to another vertical's namespace" (VE2 + BD7 mechanical enforcement); **DC-NN-b** "no vertical engine declares platform scope" (BD3 + CN-5-101 enforcement — verticals are site or tenant only); **DC-NN-c** "≥2 vertical subscriptions before a new Universal engine is introduced" (BD8 partial mechanization — guards against premature universalization).
+- **Why:** Doctrine in prose helps at review time but cannot prevent regressions at scale. Mechanizing the testable subset into CN-4-019 doctrine catalog makes boundary discipline enforceable at CI build + at registration time. Parallel to CTR-025 DC-038..041 ramp-up pattern.
+- **Proposed contract:** Term 4 (re-activated kifupi per Concept Lead authorisation, similar pattern to CN-4-005 amendment + CTR-025 DC additions) extends CN-4-019 §2 with DC-NN-a/b/c (final numbering per Term 4); updates Type table (§3); updates Law mapping (§4 — Law 2 isolation for DC-NN-a/b; Law 4 flexibility for DC-NN-c). Increments doc total accordingly. Pairs with CTR-044 (`engine_kind` flag) — DC checks key on `engine_kind: vertical` per CTR-044 amendment.
+- **Status:** OPEN
+- **Resolution:** —
+
+### CTR-047 — `data_sensitivity_tier` primitive extension (VI-05 deferral)
+- **From Term:** 6
+- **To Term(s):** 4
+- **Decision / Topic:** — / arose from CN-6-101 §12.3 VI-05 deferral
+- **Boundary Object:** —
+- **What is needed:** CN-6-100 §9.4 listed VI-05 (`data_sensitivity_tier` in vertical manifest) as a candidate vertical-side invariant. CN-6-101 §12.3 defers VI-05 because the candidate implicates the Identity primitive (CN-4-007) and Document primitive (CN-4-012) at the Foundation layer — specifically, whether per-vertical encryption-at-rest requirements, retention rules, and access-audit gates can plug into existing primitives or require new primitive-level extension. Term 4 ratifies which approach: (a) extend Party primitive with `data_sensitivity_tier` attribute; (b) extend Document primitive with sensitivity classification; (c) introduce a new sensitivity primitive that other primitives reference; (d) handle entirely in pack content with no primitive change.
+- **Why:** Healthcare Clinic vertical (CN-6-902 stress-test sketch) and future regulated verticals (Insurance claimant data, legal client privilege) require enforceable data-sensitivity discipline. Without primitive-level support, verticals would invent bespoke encryption + access mechanisms — exactly the gap Brief §12 warns against. Resolution must precede CN-6-902 detailed work.
+- **Proposed contract:** Term 4 evaluates options (a)/(b)/(c)/(d) and ratifies; if (a) or (b) or (c), files amendment to relevant Foundation doc; if (d), confirms pack-only handling per CTR-029 expansion. CN-6-101 §12.3 VI-05 then ratifies as full invariant in subsequent Term 6 catalog augmentation. Cross-Term coordination per D-008 (data law) implications.
 - **Status:** OPEN
 - **Resolution:** —
 
